@@ -38,7 +38,7 @@ public class Write {
 			
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File("D:/Fichiers/Desktop/modpacks2.xml"));
+			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.inputFile));
 			
 			try {
 				final Transformer transformer = transformerFactory.newTransformer();

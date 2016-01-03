@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Edit {
+public class EditModpack {
 
 	public static void main(int choixmodpack) {
 
@@ -46,7 +46,7 @@ public class Edit {
 		try {
 			//Lecture du fichier modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File("D:/Fichiers/Desktop/modpacks2.xml"));
+			final Document document = builder.parse(new File(Locations.path + Locations.inputFile));
 			XMLVersion = document.getXmlVersion();
 			XMLEncoding = document.getXmlEncoding();
 			boolean XMLStandaloneboolean = document.getXmlStandalone();
@@ -91,7 +91,7 @@ public class Edit {
 				System.out.println("mods: " + mods);
 				System.out.println("oldVersions: " + oldVersions);
 				
-				System.out.println("\nQuelle ligne souhaitez-vous editer ?\nAppuyez sur \"entrer\" quand vous avez terminé");
+				System.out.println("\nQuelle entrée souhaitez-vous editer ?\nAppuyez sur \"entrer\" quand vous avez terminé");
 				do{
 					choixEdition = Main.scanner.nextLine();
 				}while (!(choixEdition.equals("name")) && !(choixEdition.equals("author")) && !(choixEdition.equals("version")) && !(choixEdition.equals("logo")) && !(choixEdition.equals("url")) && !(choixEdition.equals("image")) && !(choixEdition.equals("dir")) && !(choixEdition.equals("mcVersion")) && !(choixEdition.equals("serverPack")) && !(choixEdition.equals("description")) && !(choixEdition.equals("mods")) && !(choixEdition.equals("oldVersions")) && !(choixEdition.isEmpty()));
@@ -172,7 +172,7 @@ public class Edit {
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File("D:/Fichiers/Desktop/modpacks2.xml"));
+			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.inputFile));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);

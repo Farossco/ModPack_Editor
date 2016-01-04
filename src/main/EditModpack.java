@@ -25,7 +25,6 @@ public class EditModpack {
 
 		String XMLVersion = "";
 		String XMLEncoding = "";
-		String XMLStandalone = "no";
 
 		String name = "";
 		String author = "";
@@ -49,8 +48,6 @@ public class EditModpack {
 			final Document document = builder.parse(new File(Locations.path + Locations.inputFile));
 			XMLVersion = document.getXmlVersion();
 			XMLEncoding = document.getXmlEncoding();
-			boolean XMLStandaloneboolean = document.getXmlStandalone();
-			if (XMLStandaloneboolean) XMLStandalone = "yes";
 			final Element racine = document.getDocumentElement();
 			final NodeList racineNoeuds = racine.getChildNodes();
 			
@@ -70,10 +67,9 @@ public class EditModpack {
 			mods = modpack.getAttribute("mods");
 			oldVersions = modpack.getAttribute("oldVersions");
 			
+			//Edition du modpack
 			
 			String choixEdition = "";
-			
-			//Edition du modpack
 			do{	
 			
 				for (int i = 0; i < 50; ++i) System.out.println();
@@ -94,7 +90,7 @@ public class EditModpack {
 				System.out.println("\nQuelle entrée souhaitez-vous editer ?\nAppuyez sur \"entrer\" quand vous avez terminé");
 				do{
 					choixEdition = Main.scanner.nextLine();
-				}while (!(choixEdition.equals("name")) && !(choixEdition.equals("author")) && !(choixEdition.equals("version")) && !(choixEdition.equals("logo")) && !(choixEdition.equals("url")) && !(choixEdition.equals("image")) && !(choixEdition.equals("dir")) && !(choixEdition.equals("mcVersion")) && !(choixEdition.equals("serverPack")) && !(choixEdition.equals("description")) && !(choixEdition.equals("mods")) && !(choixEdition.equals("oldVersions")) && !(choixEdition.isEmpty()));
+				}while ( !choixEdition.equals("name") && !choixEdition.equals("author") && !choixEdition.equals("version") && !choixEdition.equals("repoVersion") && !choixEdition.equals("logo") && !choixEdition.equals("url") && !choixEdition.equals("image") && !choixEdition.equals("dir") && !choixEdition.equals("mcVersion") && !choixEdition.equals("serverPack") && !choixEdition.equals("description") && !choixEdition.equals("mods") && !choixEdition.equals("oldVersions") && !choixEdition.isEmpty() );
 				
 				if (!choixEdition.isEmpty()){
 					System.out.println("Old value: " + modpack.getAttribute(choixEdition) + "\n");
@@ -112,6 +108,10 @@ public class EditModpack {
 					case "version":
 						version = newvalue;
 						modpack.setAttribute("version", version);
+						break;
+					case "repoVersion":
+						version = newvalue;
+						modpack.setAttribute("repoVersion", repoVersion);
 						break;
 					case "logo":
 						logo = newvalue;
@@ -151,7 +151,7 @@ public class EditModpack {
 						break;
 					}
 				}
-			}while(!(choixEdition.isEmpty()));
+			}while( !choixEdition.isEmpty() );
 		
 			//Réecriture du fichier modpacks.xml
 		
@@ -177,9 +177,7 @@ public class EditModpack {
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);
 			transformer.setOutputProperty(OutputKeys.ENCODING, XMLEncoding);
-			transformer.setOutputProperty(OutputKeys.STANDALONE, XMLStandalone);
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			transformer.transform(source, sortie);
 		}
 		catch (final ParserConfigurationException e) {

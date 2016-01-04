@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 
 
 
-public class CreateModpack {
+public class AddNewModpack {
 	
 	public static void main() {
 		
@@ -49,40 +49,40 @@ public class CreateModpack {
 			String dir = "";
 			String mcVersion = "";
 			String serverPack = "";
-			String serverPackChoice = "";
-			boolean serverPackChoiceboolean = false;
+			String provideServer = "";
+			boolean provideServerboolean = false;
 			String description = "";
 			String mods = "";
 			String mod = "";
 			String oldVersions = "";
 			String shortname = "";
-			String ValidateDatas = "";
+			String ValidateInfo = "";
 			
 			do{
 				for (int i = 0; i < 50; ++i) System.out.println();
-				System.out.println("Bienvenue dans le Programme d'ajout de modpack");
+				System.out.println("Welcome to the modpack adding program");
 				if (!name.isEmpty()){
-					System.out.println("Entrez \"NULL\" pour conserver les données initiales\n");
+					System.out.println("Leave blank to keep initials values\n");
 				}else{
 					System.out.println("\n");
 				}
 				
-				System.out.println("Nom du Modpack: " + name);
+				System.out.println("Modpack name: " + name);
 				do{
 					name = Main.scanner.nextLine();
 				}while(name.isEmpty());
 				
-				System.out.println("Nom de modpack abrégé (TNT, FTB...): " + shortname);
+				System.out.println("Shortened modpack name (TNT, FTB...): " + shortname);
 				do{
 					shortname = Main.scanner.nextLine();
 				}while(shortname.isEmpty());
 				
-				System.out.println("Auteur du modpack: " + author);
+				System.out.println("Modpack author: " + author);
 				do{
 					author = Main.scanner.nextLine();
 				}while(author.isEmpty());
 				
-				System.out.println("Version initiale: " + version);
+				System.out.println("Initial version (x / x.x / x.x.x ...): " + version);
 				version = Main.scanner.nextLine();
 				while (version.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || version.contains(" ") || version.isEmpty()){
 					System.out.println("Format incorrect, merci de n'utiliser que chiffres et des points");
@@ -99,31 +99,31 @@ public class CreateModpack {
 				System.out.println("Minecraft version: (1.x.x) " + mcVersion);
 				mcVersion = Main.scanner.nextLine();
 				while (mcVersion.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || mcVersion.contains(" ") || mcVersion.isEmpty()){
-					System.out.println("Format incorrect, merci de n'utiliser que chiffres et des points");
+					System.out.println("Incorrect format. Please use only number and dots");
 					mcVersion = Main.scanner.nextLine();
 				}
 				
-				System.out.println("Mettre une version serveur à disposition ? (Y/N) " + serverPackChoice.toUpperCase());
+				System.out.println("Provide server version ? (Y/N) " + provideServer.toUpperCase());
 				boolean stay = true;
 				while(stay){
-					serverPackChoice = Main.scanner.nextLine();
-					if ( serverPackChoice.equals("Y") || serverPackChoice.equals("y") ){
-						serverPackChoiceboolean = true;
+					provideServer = Main.scanner.nextLine();
+					if ( provideServer.equals("Y") || provideServer.equals("y") ){
+						provideServerboolean = true;
 						serverPack = shortname + "Server.zip";
 						stay = false;
-					}else if ( serverPackChoice.equals("N") || serverPackChoice.equals("n") ){
-						serverPackChoiceboolean = false;
+					}else if ( provideServer.equals("N") || provideServer.equals("n") ){
+						provideServerboolean = false;
 						serverPack = "";
 						stay = false;
 					}else{
-						System.out.println("Choisissez Y ou N");
+						System.out.println("Please choose Y or N");
 					}
 				}
 				
-				System.out.println("Description du modpack: " + description);
+				System.out.println("Modpack description: " + description);
 				description = Main.scanner.nextLine();
 				
-				System.out.println("Mods qui constituent le modpack: (Apuyez sur \"entrer\" quand vous avez terminé) " + mods);
+				System.out.println("Mods presents in the modpack: (Press \"enter\" when you finish) " + mods);
 				
 				mod = Main.scanner.nextLine();
 				mods = mod;
@@ -133,31 +133,31 @@ public class CreateModpack {
 					if (!mod.isEmpty()) mods = mods + "; " + mod;
 				}
 				
-				System.out.println("Informations complementaires: ");
-				System.out.println("Nom du logo (Petite image à gauche du modpack): " + logo);
-				System.out.println("Nom de l'image (Grande image au dessus de la description): " + image);
-				System.out.println("Nom et adresse du fichier zip: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + url);
-				if (serverPackChoiceboolean){
-					System.out.println("Nom et adresse du fichier zip (serveur): /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + serverPack);
+				System.out.println("Further information: ");
+				System.out.println("Logo file name (Image at the left of the modpack): " + logo);
+				System.out.println("Image file name (Image at the top of the description): " + image);
+				System.out.println("Name and path of client zip file: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + url);
+				if (provideServerboolean){
+					System.out.println("Name and path of server zip: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + serverPack);
 				}else{
-					System.out.println("Pas de version serveur disponible");
+					System.out.println("No server file provided");
 				}
 				
-				System.out.println("\nValider les information ? (Y/N)");
+				System.out.println("\nValidate informations ? (Y/N)");
 				
 				stay = true;
 				while(stay){
-					ValidateDatas = Main.scanner.nextLine();
-					if ( ValidateDatas.equals("Y") || ValidateDatas.equals("y") ){
+					ValidateInfo = Main.scanner.nextLine();
+					if ( ValidateInfo.equals("Y") || ValidateInfo.equals("y") ){
 						stay = false;
-					}else if ( ValidateDatas.equals("N") || ValidateDatas.equals("n") ){
+					}else if ( ValidateInfo.equals("N") || ValidateInfo.equals("n") ){
 						stay = false;
 					}else{
-						System.out.println("Choisissez Y ou N");
+						System.out.println("Please choose Y or N");
 					}
 				}
 				
-			}while( ValidateDatas.equals("N") || ValidateDatas.equals("n") );
+			}while( ValidateInfo.equals("N") || ValidateInfo.equals("n") );
 			
 			
 			

@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
-public class ShowModpacks {
+public class DisplayModpacks {
 	
 	public static int main() {
 
@@ -36,7 +36,7 @@ public class ShowModpacks {
 				System.out.println((i+1)/2 + ". " + modpack.getAttribute("name") + " (MC version: " + modpack.getAttribute("mcVersion") + ")");
 			    }				
 			}
-			System.out.println((i+1)/2 + ". Retour");
+			System.out.println((i+1)/2 + ". Back");
 			return (i+1)/2;
 			
 		}

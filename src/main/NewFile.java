@@ -26,10 +26,10 @@ public class NewFile {
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		if ( !monFichier.exists() ) {
-			System.out.print("==Le fichier modpacks.xml était absent ");
+			System.out.print("==Modpacks.xml file was missing ");
 			try {
 				monFichier.createNewFile();
-				System.out.println("et a été créé==\n");
+				System.out.println("and has been created==\n");
 				final DocumentBuilder builder = factory.newDocumentBuilder();
 				final Document document= builder.newDocument();
 				final Element racine = document.createElement("modpacks");
@@ -47,13 +47,13 @@ public class NewFile {
 				transformer.transform(source, sortie);
 				
 			} catch (IOException e) {
-				System.out.println("mais n'a pas pu être créé (IOException)==\n");
+				System.out.println("but couldn't be created (IOException)==\n");
 			} catch (ParserConfigurationException e) {
-				System.out.println("mais n'a pas pu être créé (ParserConfigurationException)==\n");
+				System.out.println("but couldn't be created (ParserConfigurationException)==\n");
 			} catch (TransformerConfigurationException e) {
-				System.out.println("mais n'a pas pu être créé (TransformerConfigurationException)==\n");
+				System.out.println("but couldn't be created (TransformerConfigurationException)==\n");
 			} catch (TransformerException e) {
-				System.out.println("mais n'a pas pu être créé (TransformerException)==\n");
+				System.out.println("but couldn't be created (TransformerException)==\n");
 			}
 		}
 	}

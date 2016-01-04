@@ -43,7 +43,7 @@ public class EditModpack {
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		try {
-			//Lecture du fichier modpacks.xml
+			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.parse(new File(Locations.path + Locations.inputFile));
 			XMLVersion = document.getXmlVersion();
@@ -67,7 +67,7 @@ public class EditModpack {
 			mods = modpack.getAttribute("mods");
 			oldVersions = modpack.getAttribute("oldVersions");
 			
-			//Edition du modpack
+			//Modpack modifications
 			
 			String choixEdition = "";
 			do{	
@@ -87,7 +87,7 @@ public class EditModpack {
 				System.out.println("mods: " + mods);
 				System.out.println("oldVersions: " + oldVersions);
 				
-				System.out.println("\nQuelle entrée souhaitez-vous editer ?\nAppuyez sur \"entrer\" quand vous avez terminé");
+				System.out.println("\nWhat value do you want to edit ?\nPress \"enter\" when you finish");
 				do{
 					choixEdition = Main.scanner.nextLine();
 				}while ( !choixEdition.equals("name") && !choixEdition.equals("author") && !choixEdition.equals("version") && !choixEdition.equals("repoVersion") && !choixEdition.equals("logo") && !choixEdition.equals("url") && !choixEdition.equals("image") && !choixEdition.equals("dir") && !choixEdition.equals("mcVersion") && !choixEdition.equals("serverPack") && !choixEdition.equals("description") && !choixEdition.equals("mods") && !choixEdition.equals("oldVersions") && !choixEdition.isEmpty() );
@@ -153,7 +153,7 @@ public class EditModpack {
 				}
 			}while( !choixEdition.isEmpty() );
 		
-			//Réecriture du fichier modpacks.xml
+			//Writing modpacks.xml
 		
 			modpack.setAttribute("name", name);
 			modpack.setAttribute("author", author);

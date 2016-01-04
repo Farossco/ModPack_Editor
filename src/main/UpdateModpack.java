@@ -33,7 +33,7 @@ public class UpdateModpack {
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		try {
-			//Lecture du fichier modpacks.xml
+			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.parse(new File(Locations.path + Locations.inputFile));
 			XMLVersion = document.getXmlVersion();
@@ -47,7 +47,7 @@ public class UpdateModpack {
 			repoVersion = version.replace(".", "_");
 			oldVersions = modpack.getAttribute("oldVersions");
 			
-			//Edition du modpack
+			//Modpack modifications
 			
 			String newVersion = "";
 			do{	
@@ -65,7 +65,7 @@ public class UpdateModpack {
 			}while((newVersion.isEmpty()));
 			
 		
-			//Réecriture du fichier modpacks.xml
+			//Writing modpacks.xml
 		
 			modpack.setAttribute("version", version);
 			modpack.setAttribute("repoVersion", repoVersion);

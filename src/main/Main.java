@@ -14,13 +14,13 @@ public class Main {
 		for (int i = 0; i < 50; ++i) System.out.println();
 		
 		NewFile.main();
-		System.out.println("Bienvenue dans le programme d'édition de modpacks\nQue voulez-vous faire ?");
-		System.out.println("1. Afficher un modpack");
-		System.out.println("2. Editer un modpack (Brute)");
-		System.out.println("3. Mettre à jour un modpack");
-		System.out.println("4. Ajouter un modpack");
-		System.out.println("5. Supprimer un modpack (Soon) (Fais pas le con)");
-		System.out.println("6. Quitter");
+		System.out.println("Welcome to the Modpack edition program\nWhat do you want to do ?");
+		System.out.println("1. Display modpacks");
+		System.out.println("2. Edit a modpack (Raw)");
+		System.out.println("3. Update a modpack");
+		System.out.println("4. Add a new modpack");
+		System.out.println("5. Remove a modpack (Soon) (Be careful)");
+		System.out.println("6. Quit");
 		
 		String choixMenu = scanner.nextLine();
 		int back;
@@ -32,8 +32,8 @@ public class Main {
 		case "1":
 			do{
 				for (int i = 0; i < 50; ++i) System.out.println();
-				System.out.println("Quel modpack souhaitez-vous afficher ?");
-				back = ShowModpacks.main();
+				System.out.println("What modpack do you want to display ?");
+				back = DisplayModpacks.main();
 				choixModpack = scanner.nextLine();
 				if (choixModpack.isEmpty()) choixModpack = "0";
 				choixModpackInt = Integer.parseInt(choixModpack);
@@ -46,8 +46,8 @@ public class Main {
 		case "2":
 			do{
 				for (int i = 0; i < 50; ++i) System.out.println();
-				System.out.println("Quel modpack souhaitez-vous éditer ?");
-				back = ShowModpacks.main();
+				System.out.println("What modpack do you want to edit ?");
+				back = DisplayModpacks.main();
 				choixModpack = scanner.nextLine();
 				if (choixModpack.isEmpty()) choixModpack = "0";
 				choixModpackInt = Integer.parseInt(choixModpack);
@@ -60,8 +60,8 @@ public class Main {
 		case "3":
 			do{
 				for (int i = 0; i < 50; ++i) System.out.println();
-				System.out.println("Quel modpack souhaitez-vous mettre à jour ?");
-				back = ShowModpacks.main();
+				System.out.println("What modpack do you want to update ?");
+				back = DisplayModpacks.main();
 				choixModpack = scanner.nextLine();
 				if (choixModpack.isEmpty()) choixModpack = "0";
 				choixModpackInt = Integer.parseInt(choixModpack);
@@ -73,7 +73,7 @@ public class Main {
 			break;
 
 		case "4":
-			CreateModpack.main();
+			AddNewModpack.main();
 			break;
 			
 		case "5":

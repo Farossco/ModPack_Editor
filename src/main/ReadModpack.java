@@ -71,7 +71,7 @@ public class ReadModpack {
 			System.out.println("mods: " + mods);
 			System.out.println("oldVersions: " + oldVersions);
 			
-			System.out.println("\n\nAppuyez sur \"entrer\" pour continuer");
+			System.out.println("\n\nPress \"enter\" to continue");
 			Main.scanner.nextLine();
 			
 			

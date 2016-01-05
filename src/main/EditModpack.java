@@ -38,6 +38,7 @@ public class EditModpack {
 		String description = "";
 		String mods = "";
 		String oldVersions = "";
+		String entry = "";
 
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -73,79 +74,158 @@ public class EditModpack {
 			
 				Resources.clear();
 				
-				System.out.println("name: " + name);
-				System.out.println("author: " + author);
-				System.out.println("version: " + version);
-				System.out.println("logo: " + logo);
-				System.out.println("url: " + url);
-				System.out.println("image: " + image);
-				System.out.println("dir: " + dir);
-				System.out.println("mcVersion: " + mcVersion);
-				System.out.println("serverPack: " + serverPack);
-				System.out.println("description: " + description);
-				System.out.println("mods: " + mods);
-				System.out.println("oldVersions: " + oldVersions);
+				System.out.println("1. name: " + name);
+				System.out.println("2. author: " + author);
+				System.out.println("3. version: " + version);
+				System.out.println("4. logo: " + logo);
+				System.out.println("5. url: " + url);
+				System.out.println("6. image: " + image);
+				System.out.println("7. dir: " + dir);
+				System.out.println("8. mcVersion: " + mcVersion);
+				System.out.println("9. serverPack: " + serverPack);
+				System.out.println("10. description: " + description);
+				System.out.println("11. mods: " + mods);
+				System.out.println("12. oldVersions: " + oldVersions);
 				
-				System.out.println("\nWhat value do you want to edit ?\nPress \"Enter\" when you finish");
+				System.out.println("\nWhat value do you want to edit ? (Press \"Enter\" when you finish)");
+				System.out.println("Leave blank to keep initials values\n");
 				do{
 					choixEdition = Main.scanner.nextLine();
-				}while ( !choixEdition.equals("name") && !choixEdition.equals("author") && !choixEdition.equals("version") && !choixEdition.equals("repoVersion") && !choixEdition.equals("logo") && !choixEdition.equals("url") && !choixEdition.equals("image") && !choixEdition.equals("dir") && !choixEdition.equals("mcVersion") && !choixEdition.equals("serverPack") && !choixEdition.equals("description") && !choixEdition.equals("mods") && !choixEdition.equals("oldVersions") && !choixEdition.isEmpty() );
+				}while ( !choixEdition.equals("1") && !choixEdition.equals("2") && !choixEdition.equals("3") && !choixEdition.equals("4") && !choixEdition.equals("5") && !choixEdition.equals("6") && !choixEdition.equals("7") && !choixEdition.equals("8") && !choixEdition.equals("9") && !choixEdition.equals("10") && !choixEdition.equals("11") && !choixEdition.equals("12") && !choixEdition.equals("13") && !choixEdition.isEmpty() );
 				
 				if (!choixEdition.isEmpty()){
-					System.out.println("Old value: " + modpack.getAttribute(choixEdition) + "\n");
-					String newvalue = Main.scanner.nextLine();
-				
+					
 					switch(choixEdition){
-					case "name":
-						name = newvalue;
+					case "1":
+						System.out.println("Old value: " + name + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && name.isEmpty());
+						
+						if (!entry.isEmpty()){
+							name = entry;
+						}
 						modpack.setAttribute("name", name);
 						break;
-					case "author":
-						author = newvalue;
+					case "2":
+						System.out.println("Old value: " + author + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && author.isEmpty());
+						
+						if (!entry.isEmpty()){
+							author = entry;
+						}
 						modpack.setAttribute("author", author);
 						break;
-					case "version":
-						version = newvalue;
+					case "3":
+						System.out.println("Old value: " + version + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && version.isEmpty());
+						
+						if (!entry.isEmpty()){
+							version = entry;
+						}
 						modpack.setAttribute("version", version);
 						break;
-					case "repoVersion":
-						version = newvalue;
-						modpack.setAttribute("repoVersion", repoVersion);
-						break;
-					case "logo":
-						logo = newvalue;
+					case "4":
+						System.out.println("Old value: " + logo + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && logo.isEmpty());
+						
+						if (!entry.isEmpty()){
+							logo = entry;
+						}
 						modpack.setAttribute("logo", logo);
 						break;
-					case "url":
-						url = newvalue;
+					case "5":
+						System.out.println("Old value: " + url + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && url.isEmpty());
+						
+						if (!entry.isEmpty()){
+							url = entry;
+						}
 						modpack.setAttribute("url", url);
 						break;
-					case "image":
-						image = newvalue;
+					case "6":
+						System.out.println("Old value: " + image + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && image.isEmpty());
+						
+						if (!entry.isEmpty()){
+							image = entry;
+						}
 						modpack.setAttribute("image", image);
 						break;
-					case "dir":
-						dir = newvalue;
+					case "7":
+						System.out.println("Old value: " + dir + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && dir.isEmpty());
+						
+						if (!entry.isEmpty()){
+							dir = entry;
+						}
 						modpack.setAttribute("dir", dir);
 						break;
-					case "mcVersion":
-						mcVersion = newvalue;
+					case "8":
+						System.out.println("Old value: " + mcVersion + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && mcVersion.isEmpty());
+						
+						if (!entry.isEmpty()){
+							mcVersion = entry;
+						}
 						modpack.setAttribute("mcVersion", mcVersion);
 						break;
-					case "serverPack":
-						serverPack = newvalue;
+					case "9":
+						System.out.println("Old value: " + serverPack + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && serverPack.isEmpty());
+						
+						if (!entry.isEmpty()){
+							serverPack = entry;
+						}
 						modpack.setAttribute("serverPack", serverPack);
 						break;
-					case "description":
-						description = newvalue;
+					case "10":
+						System.out.println("Old value: " + description + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && description.isEmpty());
+						
+						if (!entry.isEmpty()){
+							description = entry;
+						}
 						modpack.setAttribute("description", description);
 						break;
-					case "mods":
-						mods = newvalue;
+					case "11":
+						System.out.println("Old value: " + mods + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && mods.isEmpty());
+						
+						if (!entry.isEmpty()){
+							mods = entry;
+						}
 						modpack.setAttribute("mods", mods);
 						break;
-					case "oldVersions":
-						oldVersions = newvalue;
+					case "12":
+						System.out.println("Old value: " + oldVersions + "\n");
+						do{
+							entry = Main.scanner.nextLine();
+						}while(entry.isEmpty() && oldVersions.isEmpty());
+						
+						if (!entry.isEmpty()){
+							oldVersions = entry;
+						}
 						modpack.setAttribute("oldVersions", oldVersions);
 						break;
 					}

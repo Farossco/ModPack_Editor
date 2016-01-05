@@ -24,7 +24,7 @@ import utils.Resources;
 
 public class Modpack {
 	
-	public static int list(String choice) {
+	public static void list(String choice) {
 
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
@@ -59,7 +59,7 @@ public class Modpack {
 				choixModpackInt = Integer.parseInt(choixModpack);
 			}while(choixModpackInt > back || choixModpackInt < 1);
 			
-			if (choixModpackInt == back) return 0;
+			if (choixModpackInt == back) return;
 			
 			
 			if (choice.equals("display")){
@@ -76,7 +76,7 @@ public class Modpack {
 			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
-		}return 0;
+		}return;
 	}
 	
 	public static void display(int choixmodpack) {

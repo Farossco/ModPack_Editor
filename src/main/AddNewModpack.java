@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -39,6 +38,7 @@ public class AddNewModpack {
 			XMLVersion = document.getXmlVersion();
 			XMLEncoding = document.getXmlEncoding();
 			
+			String entry = "";
 			String name = "";
 			String author = "";
 			String version = "";
@@ -51,15 +51,15 @@ public class AddNewModpack {
 			String serverPack = "";
 			String provideServer = "";
 			boolean provideServerboolean = false;
+			String provideServerString = "";
 			String description = "";
 			String mods = "";
-			String mod = "";
 			String oldVersions = "";
 			String shortname = "";
 			String ValidateInfo = "";
 			
 			do{
-				for (int i = 0; i < 50; ++i) System.out.println();
+				Resources.clear();
 				System.out.println("Welcome to the modpack adding program");
 				if (!name.isEmpty()){
 					System.out.println("Leave blank to keep initials values\n");
@@ -69,25 +69,42 @@ public class AddNewModpack {
 				
 				System.out.println("Modpack name: " + name);
 				do{
-					name = Main.scanner.nextLine();
-				}while(name.isEmpty());
+					entry = Main.scanner.nextLine();
+				}while(entry.isEmpty() && name.isEmpty());
+				
+				if (!entry.isEmpty()){
+					name = entry;
+				}
 				
 				System.out.println("Shortened modpack name (TNT, FTB...): " + shortname);
 				do{
-					shortname = Main.scanner.nextLine();
-				}while(shortname.isEmpty());
+					entry = Main.scanner.nextLine();
+				}while(entry.isEmpty() && shortname.isEmpty());
+				
+				if (!entry.isEmpty()){
+					shortname = entry;
+				}
 				
 				System.out.println("Modpack author: " + author);
 				do{
-					author = Main.scanner.nextLine();
-				}while(author.isEmpty());
+					entry = Main.scanner.nextLine();
+				}while(entry.isEmpty() && author.isEmpty());
+				
+				if (!entry.isEmpty()){
+					author = entry;
+				}
 				
 				System.out.println("Initial version (x / x.x / x.x.x ...): " + version);
-				version = Main.scanner.nextLine();
-				while (version.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || version.contains(" ") || version.isEmpty()){
-					System.out.println("Format incorrect, merci de n'utiliser que chiffres et des points");
-					version = Main.scanner.nextLine();
+				entry = Main.scanner.nextLine();
+				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") || ( entry.isEmpty() && version.isEmpty() ) ){
+					System.out.println("Incorrect format. Please use only number and dots");
+					entry = Main.scanner.nextLine();
 				}
+				
+				if (!entry.isEmpty()){
+					version = entry;
+				}
+				
 				repoVersion = version.replace(".", "_");
 				oldVersions = version;
 				
@@ -97,50 +114,86 @@ public class AddNewModpack {
 				dir = shortname;
 				
 				System.out.println("Minecraft version: (1.x.x) " + mcVersion);
-				mcVersion = Main.scanner.nextLine();
-				while (mcVersion.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || mcVersion.contains(" ") || mcVersion.isEmpty()){
+				entry = Main.scanner.nextLine();
+				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") || ( entry.isEmpty() && mcVersion.isEmpty() ) ){
 					System.out.println("Incorrect format. Please use only number and dots");
-					mcVersion = Main.scanner.nextLine();
+					entry = Main.scanner.nextLine();
+				}
+				
+				if (!entry.isEmpty()){
+					mcVersion = entry;
 				}
 				
 				System.out.println("Provide server version ? (Y/N) " + provideServer.toUpperCase());
 				boolean stay = true;
 				while(stay){
-					provideServer = Main.scanner.nextLine();
-					if ( provideServer.equals("Y") || provideServer.equals("y") ){
+					entry = Main.scanner.nextLine();
+					if ( entry.equals("Y") || entry.equals("y") ){
+						provideServer = entry;
 						provideServerboolean = true;
+						provideServerString = "Yes";
 						serverPack = shortname + "Server.zip";
 						stay = false;
-					}else if ( provideServer.equals("N") || provideServer.equals("n") ){
+					}else if ( entry.equals("N") || entry.equals("n") ){
+						provideServer = entry;
 						provideServerboolean = false;
+						provideServerString = "No";
 						serverPack = "";
 						stay = false;
+					}else if( entry.isEmpty() ){
+						stay = false;
 					}else{
-						System.out.println("Please choose Y or N");
+						System.out.print("Please choose Y or N: ");
 					}
 				}
 				
 				System.out.println("Modpack description: " + description);
-				description = Main.scanner.nextLine();
+				entry = Main.scanner.nextLine();
 				
-				System.out.println("Mods presents in the modpack: (Press \"enter\" when you finish) " + mods);
-				
-				mod = Main.scanner.nextLine();
-				mods = mod;
-				
-				while( !mod.isEmpty() ){
-					mod = Main.scanner.nextLine();
-					if (!mod.isEmpty()) mods = mods + "; " + mod;
+				if (!entry.isEmpty()){
+					description = entry;
+				}else if(description.isEmpty()){
+					description = name + " by " + author;
 				}
 				
-				System.out.println("Further information: ");
+				System.out.println("Mods presents in the modpack: (Press \"Enter\" when you finish) " + mods);
+				
+				entry = Main.scanner.nextLine();
+				
+				if (!entry.isEmpty()){
+					mods = entry;
+				}
+				
+				while( !entry.isEmpty() ){
+					entry = Main.scanner.nextLine();
+					if (!entry.isEmpty()) mods = mods + "; " + entry;
+				}
+				
+				Resources.clear();
+				
+				System.out.println("Summary:");
+				System.out.println("Modpack name: " + name);
+				System.out.println("Shortened modpack name: " + shortname);
+				System.out.println("Modpack author: " + author);
+				System.out.println("Initial version: " + version);
+				System.out.println("Minecraft version: " + mcVersion);
+				System.out.println("Provide server version ? " + provideServerString);
+				System.out.print("Mods: ");
+				if (mods.isEmpty()){
+					System.out.println("None");
+				}else{
+					System.out.println("\n " + mods.replace("; ", "\n "));
+				}
+				System.out.println("Modpack description: " + description);
+				
+				System.out.println("\nFurther information: ");
 				System.out.println("Logo file name (Image at the left of the modpack): " + logo);
 				System.out.println("Image file name (Image at the top of the description): " + image);
 				System.out.println("Name and path of client zip file: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + url);
 				if (provideServerboolean){
 					System.out.println("Name and path of server zip: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + serverPack);
 				}else{
-					System.out.println("No server file provided");
+					System.out.println("Server file not provided");
 				}
 				
 				System.out.println("\nValidate informations ? (Y/N)");
@@ -153,7 +206,7 @@ public class AddNewModpack {
 					}else if ( ValidateInfo.equals("N") || ValidateInfo.equals("n") ){
 						stay = false;
 					}else{
-						System.out.println("Please choose Y or N");
+						System.out.print("Please choose Y or N: ");
 					}
 				}
 				
@@ -186,16 +239,8 @@ public class AddNewModpack {
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.transform(source, sortie);
 			
-		} catch (TransformerConfigurationException e) {
+		}  catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
 			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		} catch (final ParserConfigurationException e) {
-		    e.printStackTrace();
-		} catch (final SAXException e1) {
-			e1.printStackTrace();
-		} catch (final IOException e1) {
-			e1.printStackTrace();
 		}
 	}
 }

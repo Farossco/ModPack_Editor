@@ -12,7 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class ReadModpack {
+public class DisplayModpack {
 
 	public static void main(int choixmodpack) {
 
@@ -55,7 +55,7 @@ public class ReadModpack {
 			mods = modpack.getAttribute("mods");
 			oldVersions = modpack.getAttribute("oldVersions");
 			
-			for (int i = 0; i < 50; ++i) System.out.println();
+			Resources.clear();
 			
 			System.out.println("name: " + name);
 			System.out.println("author: " + author);
@@ -71,16 +71,10 @@ public class ReadModpack {
 			System.out.println("mods: " + mods);
 			System.out.println("oldVersions: " + oldVersions);
 			
-			System.out.println("\n\nPress \"enter\" to continue");
+			System.out.println("\n\nPress \"Enter\" to continue");
 			Main.scanner.nextLine();
 			
-			
-		}
-		catch (final ParserConfigurationException e) {
-			e.printStackTrace();
-		}catch (final SAXException e) {
-			e.printStackTrace();
-		}catch (final IOException e) {
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 	}

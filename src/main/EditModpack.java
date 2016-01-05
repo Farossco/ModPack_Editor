@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -72,7 +71,7 @@ public class EditModpack {
 			String choixEdition = "";
 			do{	
 			
-				for (int i = 0; i < 50; ++i) System.out.println();
+				Resources.clear();
 				
 				System.out.println("name: " + name);
 				System.out.println("author: " + author);
@@ -87,7 +86,7 @@ public class EditModpack {
 				System.out.println("mods: " + mods);
 				System.out.println("oldVersions: " + oldVersions);
 				
-				System.out.println("\nWhat value do you want to edit ?\nPress \"enter\" when you finish");
+				System.out.println("\nWhat value do you want to edit ?\nPress \"Enter\" when you finish");
 				do{
 					choixEdition = Main.scanner.nextLine();
 				}while ( !choixEdition.equals("name") && !choixEdition.equals("author") && !choixEdition.equals("version") && !choixEdition.equals("repoVersion") && !choixEdition.equals("logo") && !choixEdition.equals("url") && !choixEdition.equals("image") && !choixEdition.equals("dir") && !choixEdition.equals("mcVersion") && !choixEdition.equals("serverPack") && !choixEdition.equals("description") && !choixEdition.equals("mods") && !choixEdition.equals("oldVersions") && !choixEdition.isEmpty() );
@@ -179,16 +178,7 @@ public class EditModpack {
 			transformer.setOutputProperty(OutputKeys.ENCODING, XMLEncoding);
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.transform(source, sortie);
-		}
-		catch (final ParserConfigurationException e) {
-			e.printStackTrace();
-		}catch (final TransformerConfigurationException e) {
-			e.printStackTrace();
-		}catch (final TransformerException e) {
-			e.printStackTrace();
-		}catch (final SAXException e) {
-			e.printStackTrace();
-		}catch (final IOException e) {
+		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
 			e.printStackTrace();
 		}
 	}

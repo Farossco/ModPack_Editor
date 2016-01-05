@@ -18,19 +18,29 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class UpdateModpack {
+public class RemoveModpack {
 
 	public static void main(int choixmodpack) {
-
+		
 		String XMLVersion = "";
 		String XMLEncoding = "";
 
+		String name = "";
+		String author = "";
 		String version = "";
 		String repoVersion = "";
+		String logo = "";
+		String url = "";
+		String image = "";
+		String dir = "";
+		String mcVersion = "";
+		String serverPack = "";
+		String description = "";
+		String mods = "";
 		String oldVersions = "";
 
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
+		
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
@@ -41,38 +51,42 @@ public class UpdateModpack {
 			final NodeList racineNoeuds = racine.getChildNodes();
 			
 			final Element modpack = (Element) racineNoeuds.item(choixmodpack);
-
-			version = modpack.getAttribute("version");
-			repoVersion = version.replace(".", "_");
-			oldVersions = modpack.getAttribute("oldVersions");
 			
-			//Modpack modifications
-			
-			String newVersion = "";
+			name = modpack.getAttribute("name");
 			
 			Resources.clear();
-			System.out.println("Current version: " + version);
-			System.out.println("\nPlease enter new version (\"Enter\" to cancel)");
-			
-			newVersion = Main.scanner.nextLine();
-			while (newVersion.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || newVersion.contains(" ") ){
-				System.out.println("Incorrect format. Please use only number and dots");
-				newVersion = Main.scanner.nextLine();
+			System.out.println("Are you sure you want to delete \"" + name + "\" ? (Y/N) ");
+			boolean stay = true;
+			String entry = "";
+			while(stay){
+				entry = Main.scanner.nextLine();
+				if ( entry.equals("Y") || entry.equals("y") ){
+					stay = false;
+				}else if ( entry.equals("N") || entry.equals("n") ){
+					return;
+				}else{
+					System.out.print("Please choose Y or N: ");
+				}
 			}
 			
-			if (!newVersion.isEmpty()){
-				version = newVersion;
-				repoVersion = version.replace(".", "_");
-				oldVersions = version + ";" + oldVersions;
-			}else{
-				return;
-			}
+			//Modpack modifications
+			racine.removeChild(modpack);
 			
-		
 			//Writing modpacks.xml
 		
+			modpack.setAttribute("name", name);
+			modpack.setAttribute("author", author);
 			modpack.setAttribute("version", version);
+			repoVersion = version.replace(".", "_");
 			modpack.setAttribute("repoVersion", repoVersion);
+			modpack.setAttribute("logo", logo);
+			modpack.setAttribute("url", url);
+			modpack.setAttribute("image", image);
+			modpack.setAttribute("dir", dir);
+			modpack.setAttribute("mcVersion", mcVersion);
+			modpack.setAttribute("serverPack", serverPack);
+			modpack.setAttribute("description", description);
+			modpack.setAttribute("mods", mods);
 			modpack.setAttribute("oldVersions", oldVersions);
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -84,6 +98,11 @@ public class UpdateModpack {
 			transformer.setOutputProperty(OutputKeys.ENCODING, XMLEncoding);
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.transform(source, sortie);
+			
+			System.out.println("Modpack \"" + name + "\" has been removed successfully");
+			System.out.println("Press \"Enter\" to continue");
+			Main.scanner.nextLine();
+			
 		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
 			e.printStackTrace();
 		}

@@ -8,7 +8,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -46,14 +45,8 @@ public class NewFile {
 
 				transformer.transform(source, sortie);
 				
-			} catch (IOException e) {
-				System.out.println("but couldn't be created (IOException)==\n");
-			} catch (ParserConfigurationException e) {
-				System.out.println("but couldn't be created (ParserConfigurationException)==\n");
-			} catch (TransformerConfigurationException e) {
-				System.out.println("but couldn't be created (TransformerConfigurationException)==\n");
-			} catch (TransformerException e) {
-				System.out.println("but couldn't be created (TransformerException)==\n");
+			} catch (ParserConfigurationException | IOException | TransformerException e) {
+				e.printStackTrace();
 			}
 		}
 	}

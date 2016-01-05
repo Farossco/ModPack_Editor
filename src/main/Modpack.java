@@ -19,8 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import utils.Locations;
-import utils.Resources;
+import utils.*;
 
 public class Modpack {
 	

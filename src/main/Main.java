@@ -2,8 +2,7 @@ package main;
 
 import java.util.Scanner;
 
-import utils.NewFile;
-import utils.Resources;
+import utils.*;
 
 public class Main {
 
@@ -13,7 +12,7 @@ public class Main {
 		
 		scanner = new Scanner(System.in);
 		
-		NewFile.main();
+		Resources.newFile();
 		Resources.clear();
 		System.out.println("Welcome to the Modpack edition program\nWhat do you want to do ?");
 		System.out.println("1. Display a modpack");

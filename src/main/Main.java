@@ -2,6 +2,9 @@ package main;
 
 import java.util.Scanner;
 
+import utils.NewFile;
+import utils.Resources;
+
 public class Main {
 
 	public static Scanner scanner;
@@ -32,28 +35,28 @@ public class Main {
 		switch(choixMenu){
 		
 		case "1":
-			ListModpacks.main("display");
+			Modpack.list("display");
 			break;
 			
 		case "2":
-			ListModpacks.main("edit");
+			Modpack.list("edit");
 			break;
 		
 		case "3":
-			ListModpacks.main("update");
+			Modpack.list("update");
 			break;
 
 		case "4":
-			AddNewModpack.main();
+			Modpack.addNew();
 			break;
 			
 		case "5":
-			ListModpacks.main("remove");
+			Modpack.list("remove");
 			break;
 			
 		case "6":
 			if (Resources.backupIsPresent()){
-				RestoreBackup.main();
+				Backup.restore();
 			}else{
 				return;
 			}
@@ -61,7 +64,7 @@ public class Main {
 			
 		case "7":
 			if (Resources.backupIsPresent())
-				RemoveBackup.main();
+				Backup.remove();
 			break;
 			
 		case "8":

@@ -1,4 +1,4 @@
-package main;
+package utils;
 
 public class Resources {
 	
@@ -17,5 +17,5 @@ public class Resources {
 			return false;
 		}
 	}
-	
+
 }

@@ -21,7 +21,7 @@ public class NewFile {
 	public static void main() {
 		
 		new File(Locations.path).mkdir();
-		java.io.File monFichier = new java.io.File(Locations.path + Locations.inputFile);
+		java.io.File monFichier = new java.io.File(Locations.path + Locations.modpackFile);
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		if ( !monFichier.exists() ) {
@@ -37,7 +37,7 @@ public class NewFile {
 				final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				final Transformer transformer = transformerFactory.newTransformer();
 				final DOMSource source = new DOMSource(document);
-				final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.inputFile));
+				final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
 				
 				transformer.setOutputProperty(OutputKeys.VERSION, "1.0");
 				transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");

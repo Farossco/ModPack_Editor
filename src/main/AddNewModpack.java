@@ -27,7 +27,7 @@ public class AddNewModpack {
 		
 		try {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.inputFile));
+			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
 			final Element racine = document.getDocumentElement();
 			final Element modpack = document.createElement("modpack");
 			racine.appendChild(modpack);
@@ -231,7 +231,7 @@ public class AddNewModpack {
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.inputFile));
+			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);

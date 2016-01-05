@@ -18,7 +18,14 @@ public class Main {
 		System.out.println("3. Update a modpack");
 		System.out.println("4. Add a new modpack");
 		System.out.println("5. Remove a modpack (Be careful)");
-		System.out.println("6. Quit");
+		if (Resources.backupIsPresent()){
+			System.out.println("6. Restore backup file");
+			System.out.println("7. Remove backup file");
+			System.out.println("8. Quit");
+		}else{
+			System.out.println("6. Quit");
+		}
+		
 		
 		String choixMenu = scanner.nextLine();
 		
@@ -45,8 +52,26 @@ public class Main {
 			break;
 			
 		case "6":
-			return;
+			if (Resources.backupIsPresent()){
+				RestoreBackup.main();
+			}else{
+				return;
+			}
+			break;
+			
+		case "7":
+			if (Resources.backupIsPresent())
+				RemoveBackup.main();
+			break;
+			
+		case "8":
+			if (Resources.backupIsPresent())
+				return;
+			break;
+			
+			
 		}
+		
 		Main.main(args);
 	}
 }

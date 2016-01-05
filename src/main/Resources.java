@@ -8,4 +8,14 @@ public class Resources {
 			System.out.println();
 	}
 	
+	//Detect if the backup file is present
+	public static boolean backupIsPresent(){
+		java.io.File monFichier = new java.io.File(Locations.backupPath + Locations.backupFile);
+		if (monFichier.exists()) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 }

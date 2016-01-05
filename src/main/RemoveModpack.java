@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,7 +45,7 @@ public class RemoveModpack {
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.inputFile));
+			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
 			XMLVersion = document.getXmlVersion();
 			XMLEncoding = document.getXmlEncoding();
 			final Element racine = document.getDocumentElement();
@@ -55,6 +56,8 @@ public class RemoveModpack {
 			name = modpack.getAttribute("name");
 			
 			Resources.clear();
+			Files.copy(new File(Locations.path + Locations.modpackFile).toPath(), new File(Locations.backupPath + Locations.backupFile).toPath());
+			System.out.println("A backup of the modpacks.xml file has been made");
 			System.out.println("Are you sure you want to delete \"" + name + "\" ? (Y/N) ");
 			boolean stay = true;
 			String entry = "";
@@ -91,7 +94,7 @@ public class RemoveModpack {
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.inputFile));
+			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);

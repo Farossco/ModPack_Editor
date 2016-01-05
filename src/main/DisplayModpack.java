@@ -35,7 +35,7 @@ public class DisplayModpack {
 		try {
 			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.inputFile));
+			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
 			final Element racine = document.getDocumentElement();
 			final NodeList racineNoeuds = racine.getChildNodes();
 			

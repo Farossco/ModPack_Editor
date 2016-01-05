@@ -32,15 +32,15 @@ public class Main {
 		switch(choixMenu){
 		
 		case "1":
-			ReadModpacks.main("display");
+			ListModpacks.main("display");
 			break;
 			
 		case "2":
-			ReadModpacks.main("edit");
+			ListModpacks.main("edit");
 			break;
 		
 		case "3":
-			ReadModpacks.main("update");
+			ListModpacks.main("update");
 			break;
 
 		case "4":
@@ -48,7 +48,7 @@ public class Main {
 			break;
 			
 		case "5":
-			ReadModpacks.main("remove");
+			ListModpacks.main("remove");
 			break;
 			
 		case "6":

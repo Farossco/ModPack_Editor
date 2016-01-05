@@ -13,7 +13,5 @@ public class RemoveBackup {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }

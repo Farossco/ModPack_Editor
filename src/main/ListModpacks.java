@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
-public class ReadModpacks {
+public class ListModpacks {
 	
 	public static int main(String choice) {
 

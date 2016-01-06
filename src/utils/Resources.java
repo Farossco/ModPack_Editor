@@ -27,7 +27,7 @@ public class Resources {
 
 	        if (os.contains("Windows"))
 	        {
-	            Runtime.getRuntime().exec("cls");
+	        	for (int i = 0; i < 50; ++i) System.out.println();
 	        }
 	        else
 	        {

@@ -19,10 +19,20 @@ public class Main {
 		System.out.println("2. Edit a modpack (Raw)");
 		System.out.println("3. Update a modpack");
 		System.out.println("4. Add a new modpack");
-		System.out.println("5. Remove a modpack (Be careful)");
-		if (Resources.backupIsPresent()){
-			System.out.println("6. Restore backup file");
-			System.out.println("7. Remove backup file");
+		System.out.println("5. Remove a modpack");
+		if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
+			System.out.println("6. Restore backup file (modpack.xml)");
+			System.out.println("7. Restore backup file (thirdparty.xml)");
+			System.out.println("8. Remove backup file (modpack.xml)");
+			System.out.println("9. Remove backup file (thirdparty.xml)");
+			System.out.println("10. Quit");
+		}else if (Backup.isPresent(Locations.modpackBackupFile)){
+			System.out.println("6. Restore backup file (modpack.xml)");
+			System.out.println("7. Remove backup file (modpack.xml)");
+			System.out.println("8. Quit");
+		}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
+			System.out.println("6. Restore backup file (thirdparty.xml)");
+			System.out.println("7. Remove backup file (thirdparty.xml)");
 			System.out.println("8. Quit");
 		}else{
 			System.out.println("6. Quit");
@@ -54,26 +64,47 @@ public class Main {
 			break;
 			
 		case "6":
-			if (Resources.backupIsPresent()){
-				Backup.restore();
+			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
+				Backup.restore(Locations.modpackBackupFile, Locations.modpackFile);
+			}else if (Backup.isPresent(Locations.modpackBackupFile)){
+				Backup.restore(Locations.modpackBackupFile, Locations.modpackFile);
+			}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
+				Backup.restore(Locations.thirdpartyBackupFile, Locations.thirdpartyFile);
 			}else{
+				return;
+			}break;
+			
+		case "7":
+			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
+				Backup.restore(Locations.thirdpartyBackupFile, Locations.thirdpartyFile);
+			}else if (Backup.isPresent(Locations.modpackBackupFile)){
+				Backup.remove(Locations.modpackBackupFile);
+			}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
+				Backup.remove(Locations.thirdpartyBackupFile);
+			}
+			break;
+			
+		case "8":
+			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
+				Backup.remove(Locations.modpackBackupFile);
+			}else if (Backup.isPresent(Locations.modpackBackupFile)){
+				return;
+			}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
 				return;
 			}
 			break;
 			
-		case "7":
-			if (Resources.backupIsPresent())
-				Backup.remove();
+		case "9":
+			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
+				Backup.remove(Locations.thirdpartyBackupFile);
+			}
 			break;
 			
-		case "8":
-			if (Resources.backupIsPresent())
+		case "10":
+			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
 				return;
-			break;
-			
-			
+			}
 		}
-		
 		Main.main(args);
 	}
 }

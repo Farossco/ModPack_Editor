@@ -24,16 +24,6 @@ public class Resources {
 			System.out.println();
 	}
 	
-	//Detect if the backup file is present
-	public static boolean backupIsPresent(){
-		java.io.File monFichier = new java.io.File(Locations.backupPath + Locations.backupFile);
-		if (monFichier.exists()) {
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
 	//Detect if modpacks.xml is present and create it if not
 	public static void newFile() {
 		

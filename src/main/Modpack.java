@@ -23,12 +23,12 @@ import utils.*;
 
 public class Modpack {
 	
+	static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	
 	public static void list(String choice) {
 
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
 		String choixModpack = "";
-		int choixModpackInt, i;
+		int choixModpackInt, i, j;
 		int back;
 		
 		try {
@@ -36,49 +36,77 @@ public class Modpack {
 				for (i = 0; i < 50; ++i) System.out.println();
 				System.out.println("What modpack do you want to " + choice + " ?");
 				
-			    final DocumentBuilder builder = factory.newDocumentBuilder();		
-			    final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
+			    final DocumentBuilder builder = factory.newDocumentBuilder();
+			    
+			    final Document modpacksDocument = builder.parse(new File(Locations.path + Locations.modpackFile));
+				final Element modpacksRacine = modpacksDocument.getDocumentElement();
+				final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
+				final int modpacksNbRacineNoeuds = modpacksRacineNoeuds.getLength();
 				
-				final Element racine = document.getDocumentElement();
-				final NodeList racineNoeuds = racine.getChildNodes();
-				
-				final int nbRacineNoeuds = racineNoeuds.getLength();
-				
-				for (i = 0; i<nbRacineNoeuds; i++) {
-				    if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
-				        final Element modpack = (Element) racineNoeuds.item(i);
+				System.out.println("\n-- modpacks.xml --");
+				for (i = 0; i<modpacksNbRacineNoeuds; i++) {
+				    if(modpacksRacineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				        final Element modpack = (Element) modpacksRacineNoeuds.item(i);
 					System.out.println((i+1)/2 + ". " + modpack.getAttribute("name") + " (v" + modpack.getAttribute("version") + " / MC version: " + modpack.getAttribute("mcVersion") + ")");
 				    }				
 				}
-				back = (i+1)/2;
-				System.out.println(back + ". Back");
+				
+				final Document thirdpartyDocument = builder.parse(new File(Locations.path + Locations.thirdpartyFile));
+				final Element thirdpartyRacine = thirdpartyDocument.getDocumentElement();
+				final NodeList thirdpartyRacineNoeuds = thirdpartyRacine.getChildNodes();
+				final int thirdpartyNbRacineNoeuds = thirdpartyRacineNoeuds.getLength();
+				
+				int number;
+				
+				System.out.println("\n-- thirdparty.xml --");
+				for (j = 0; j<thirdpartyNbRacineNoeuds; j++) {
+				    if(thirdpartyRacineNoeuds.item(j).getNodeType() == Node.ELEMENT_NODE) {
+				        final Element modpack = (Element) thirdpartyRacineNoeuds.item(j);
+				    number = (i+1)/2 + (j+1)/2 - 1;
+					System.out.println( number + ". " + modpack.getAttribute("name") + " (v" + modpack.getAttribute("version") + " / MC version: " + modpack.getAttribute("mcVersion") + ")");
+				    }				
+				}
+				
+				back = (i+1)/2 + (j+1)/2 - 1;
+				
+				System.out.println("\n" + back + ". Back");
 				
 				choixModpack = Main.scanner.nextLine();
 				if (choixModpack.isEmpty()) choixModpack = "0";
 				choixModpackInt = Integer.parseInt(choixModpack);
 			}while(choixModpackInt > back || choixModpackInt < 1);
 			
-			if (choixModpackInt == back) return;
-			
-			
-			if (choice.equals("display")){
-				Modpack.display(choixModpackInt*2-1);
-			}else if (choice.equals("edit")){
-				Modpack.edit(choixModpackInt*2-1);
-			}else if (choice.equals("update")){
-				Modpack.update(choixModpackInt*2-1);
-			}else if (choice.equals("remove")){
-				Modpack.remove(choixModpackInt*2-1);
+			if (choixModpackInt == back){
+				return;
+			}else if (choixModpackInt < (i+1)/2 && choixModpackInt >= 0){
+				if (choice.equals("display")){
+					Modpack.display(choixModpackInt*2-1,  Locations.modpackFile);
+				}else if (choice.equals("edit")){
+					Modpack.edit(choixModpackInt*2-1,  Locations.modpackFile);
+				}else if (choice.equals("update")){
+					Modpack.update(choixModpackInt*2-1,  Locations.modpackFile);
+				}else if (choice.equals("remove")){
+					Modpack.remove(choixModpackInt*2-1,  Locations.modpackFile);
+				}
+			}else if(choixModpackInt >= (i+1)/2 && choixModpackInt < back){
+				if (choice.equals("display")){
+					Modpack.display( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+				}else if (choice.equals("edit")){
+					Modpack.edit( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+				}else if (choice.equals("update")){
+					Modpack.update( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+				}else if (choice.equals("remove")){
+					Modpack.remove( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+				}
 			}
 			
-			
-			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
+		} catch (NumberFormatException e){
+			Modpack.list(choice);
 		}return;
 	}
 	
-	public static void display(int choixmodpack) {
+	public static void display(int choixmodpack, String file) {
 
 		String name = "";
 		String author = "";
@@ -97,13 +125,15 @@ public class Modpack {
 		
 
 		try {
-			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			System.out.println(choixmodpack);
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
-			final Element racine = document.getDocumentElement();
-			final NodeList racineNoeuds = racine.getChildNodes();
 			
-			final Element modpack = (Element) racineNoeuds.item(choixmodpack);
+			
+			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Element modpacksRacine = modpacksDocument.getDocumentElement();
+			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
+			
+			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
 
 			name = modpack.getAttribute("name");
 			author = modpack.getAttribute("author");
@@ -148,7 +178,7 @@ public class Modpack {
 		}
 	}
 	
-	public static void edit(int choixmodpack) {
+	public static void edit(int choixmodpack, String file) {
 
 		String XMLVersion = "";
 		String XMLEncoding = "";
@@ -168,18 +198,16 @@ public class Modpack {
 		String oldVersions = "";
 		String entry = "";
 
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
-			XMLVersion = document.getXmlVersion();
-			XMLEncoding = document.getXmlEncoding();
-			final Element racine = document.getDocumentElement();
-			final NodeList racineNoeuds = racine.getChildNodes();
+			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			XMLVersion = modpacksDocument.getXmlVersion();
+			XMLEncoding = modpacksDocument.getXmlEncoding();
+			final Element modpacksRacine = modpacksDocument.getDocumentElement();
+			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
-			final Element modpack = (Element) racineNoeuds.item(choixmodpack);
+			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
 
 			name = modpack.getAttribute("name");
 			author = modpack.getAttribute("author");
@@ -378,8 +406,8 @@ public class Modpack {
 			modpack.setAttribute("oldVersions", oldVersions);
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
+			final DOMSource source = new DOMSource(modpacksDocument);
+			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);
@@ -391,7 +419,7 @@ public class Modpack {
 		}
 	}
 	
-	public static void update(int choixmodpack) {
+	public static void update(int choixmodpack, String file) {
 
 		String XMLVersion = "";
 		String XMLEncoding = "";
@@ -399,19 +427,17 @@ public class Modpack {
 		String version = "";
 		String repoVersion = "";
 		String oldVersions = "";
-
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
+		
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
-			XMLVersion = document.getXmlVersion();
-			XMLEncoding = document.getXmlEncoding();
-			final Element racine = document.getDocumentElement();
-			final NodeList racineNoeuds = racine.getChildNodes();
+			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			XMLVersion = modpacksDocument.getXmlVersion();
+			XMLEncoding = modpacksDocument.getXmlEncoding();
+			final Element modpacksRacine = modpacksDocument.getDocumentElement();
+			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
-			final Element modpack = (Element) racineNoeuds.item(choixmodpack);
+			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
 
 			version = modpack.getAttribute("version");
 			repoVersion = version.replace(".", "_");
@@ -447,8 +473,8 @@ public class Modpack {
 			modpack.setAttribute("oldVersions", oldVersions);
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
+			final DOMSource source = new DOMSource(modpacksDocument);
+			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);
@@ -462,22 +488,42 @@ public class Modpack {
 	
 	public static void addNew() {
 		
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		String entry;
+		String file = "";
+		boolean stay = true;
 		
+		while (stay){
+			
+			Resources.clear();
+			System.out.println("In what file do you want to add modpack ?");
+			System.out.println("1. modpacks.xml");
+			System.out.println("2. thirdparty.xml");
+			entry = Main.scanner.nextLine();
+			
+			switch(entry){
+			
+			case "1":
+				file = Locations.modpackFile;
+				stay = false;
+			case "2":
+				file = Locations.thirdpartyFile;
+				stay = false;
+			}
+		}
+
 		try {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
-			final Element racine = document.getDocumentElement();
-			final Element modpack = document.createElement("modpack");
-			racine.appendChild(modpack);
+			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Element modpacksRacine = modpacksDocument.getDocumentElement();
+			final Element modpack = modpacksDocument.createElement("modpack");
+			modpacksRacine.appendChild(modpack);
 			
 			String XMLVersion = "";
 			String XMLEncoding = "";
 			
-			XMLVersion = document.getXmlVersion();
-			XMLEncoding = document.getXmlEncoding();
+			XMLVersion = modpacksDocument.getXmlVersion();
+			XMLEncoding = modpacksDocument.getXmlEncoding();
 			
-			String entry = "";
 			String name = "";
 			String author = "";
 			String version = "";
@@ -564,7 +610,7 @@ public class Modpack {
 				}
 				
 				System.out.println("Provide server version ? (Y/N) " + provideServer.toUpperCase());
-				boolean stay = true;
+				stay = true;
 				while(stay){
 					entry = Main.scanner.nextLine();
 					if ( entry.equals("Y") || entry.equals("y") ){
@@ -669,8 +715,8 @@ public class Modpack {
 			
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
+			final DOMSource source = new DOMSource(modpacksDocument);
+			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);
@@ -683,43 +729,39 @@ public class Modpack {
 		}
 	}
 
-	public static void remove(int choixmodpack) {
+	public static void remove(int choixmodpack, String file) {
 	
 		String XMLVersion = "";
 		String XMLEncoding = "";
-	
+		
 		String name = "";
-		String author = "";
-		String version = "";
-		String repoVersion = "";
-		String logo = "";
-		String url = "";
-		String image = "";
-		String dir = "";
-		String mcVersion = "";
-		String serverPack = "";
-		String description = "";
-		String mods = "";
-		String oldVersions = "";
-	
+		
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document document = builder.parse(new File(Locations.path + Locations.modpackFile));
-			XMLVersion = document.getXmlVersion();
-			XMLEncoding = document.getXmlEncoding();
-			final Element racine = document.getDocumentElement();
-			final NodeList racineNoeuds = racine.getChildNodes();
+			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			XMLVersion = modpacksDocument.getXmlVersion();
+			XMLEncoding = modpacksDocument.getXmlEncoding();
+			final Element modpacksRacine = modpacksDocument.getDocumentElement();
+			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
-			final Element modpack = (Element) racineNoeuds.item(choixmodpack);
+			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
 			
 			name = modpack.getAttribute("name");
 			
 			Resources.clear();
 			
-			Backup.create();
+			if (file.equals(Locations.modpackFile)){
+				Backup.create(Locations.modpackBackupFile, Locations.modpackFile);
+			}else if (file.equals(Locations.thirdpartyFile)){
+				Backup.create(Locations.thirdpartyBackupFile, Locations.thirdpartyFile);
+			}else{
+				System.out.println("Impossible to create backup !");
+			}
+				
+			
 			System.out.println("Are you sure you want to delete \"" + name + "\" ? (Y/N) ");
 			boolean stay = true;
 			String entry = "";
@@ -735,28 +777,13 @@ public class Modpack {
 			}
 			
 			//Modpack modifications
-			racine.removeChild(modpack);
+			modpacksRacine.removeChild(modpack);
 			
 			//Writing modpacks.xml
-		
-			modpack.setAttribute("name", name);
-			modpack.setAttribute("author", author);
-			modpack.setAttribute("version", version);
-			repoVersion = version.replace(".", "_");
-			modpack.setAttribute("repoVersion", repoVersion);
-			modpack.setAttribute("logo", logo);
-			modpack.setAttribute("url", url);
-			modpack.setAttribute("image", image);
-			modpack.setAttribute("dir", dir);
-			modpack.setAttribute("mcVersion", mcVersion);
-			modpack.setAttribute("serverPack", serverPack);
-			modpack.setAttribute("description", description);
-			modpack.setAttribute("mods", mods);
-			modpack.setAttribute("oldVersions", oldVersions);
 	
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			final DOMSource source = new DOMSource(document);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
+			final DOMSource source = new DOMSource(modpacksDocument);
+			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
 	
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);

@@ -48,3 +48,6 @@ Temporary Items
 
 #Custom files
 static/
+/bin/
+
+src/main/Test.java

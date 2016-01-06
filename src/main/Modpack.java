@@ -30,10 +30,14 @@ public class Modpack {
 		String choixModpack = "";
 		int choixModpackInt, i, j;
 		int back;
+		int modpackRecurrence = 0;
+		int thirdpartyRecurrence = 0;
 		
 		try {
 			do{
-				for (i = 0; i < 50; ++i) System.out.println();
+				modpackRecurrence = 0;
+				thirdpartyRecurrence = 0;
+				Resources.clear();
 				System.out.println("What modpack do you want to " + choice + " ?");
 				
 			    final DocumentBuilder builder = factory.newDocumentBuilder();
@@ -47,27 +51,33 @@ public class Modpack {
 				for (i = 0; i<modpacksNbRacineNoeuds; i++) {
 				    if(modpacksRacineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				        final Element modpack = (Element) modpacksRacineNoeuds.item(i);
-					System.out.println((i+1)/2 + ". " + modpack.getAttribute("name") + " (v" + modpack.getAttribute("version") + " / MC version: " + modpack.getAttribute("mcVersion") + ")");
+				        modpackRecurrence++;
+				        System.out.println(modpackRecurrence + ". " + modpack.getAttribute("name") + " (v" + modpack.getAttribute("version") + " / MC version: " + modpack.getAttribute("mcVersion") + ")");
 				    }				
 				}
-				
+				if (modpackRecurrence == 0){
+					i = 1;
+					System.out.println("- No modpack detected");
+				}
+
 				final Document thirdpartyDocument = builder.parse(new File(Locations.path + Locations.thirdpartyFile));
 				final Element thirdpartyRacine = thirdpartyDocument.getDocumentElement();
 				final NodeList thirdpartyRacineNoeuds = thirdpartyRacine.getChildNodes();
 				final int thirdpartyNbRacineNoeuds = thirdpartyRacineNoeuds.getLength();
 				
-				int number;
-				
 				System.out.println("\n-- thirdparty.xml --");
 				for (j = 0; j<thirdpartyNbRacineNoeuds; j++) {
 				    if(thirdpartyRacineNoeuds.item(j).getNodeType() == Node.ELEMENT_NODE) {
 				        final Element modpack = (Element) thirdpartyRacineNoeuds.item(j);
-				    number = (i+1)/2 + (j+1)/2 - 1;
-					System.out.println( number + ". " + modpack.getAttribute("name") + " (v" + modpack.getAttribute("version") + " / MC version: " + modpack.getAttribute("mcVersion") + ")");
+				        thirdpartyRecurrence ++;
+						System.out.println( modpackRecurrence + thirdpartyRecurrence + ". " + modpack.getAttribute("name") + " (v" + modpack.getAttribute("version") + " / MC version: " + modpack.getAttribute("mcVersion") + ")");
 				    }				
 				}
+				if (thirdpartyRecurrence == 0){
+					System.out.println("- No modpack detected");
+				}
 				
-				back = (i+1)/2 + (j+1)/2 - 1;
+				back = modpackRecurrence + thirdpartyRecurrence + 1;
 				
 				System.out.println("\n" + back + ". Back");
 				
@@ -505,9 +515,11 @@ public class Modpack {
 			case "1":
 				file = Locations.modpackFile;
 				stay = false;
+				break;
 			case "2":
 				file = Locations.thirdpartyFile;
 				stay = false;
+				break;
 			}
 		}
 
@@ -524,22 +536,22 @@ public class Modpack {
 			XMLVersion = modpacksDocument.getXmlVersion();
 			XMLEncoding = modpacksDocument.getXmlEncoding();
 			
-			String name = "";
-			String author = "";
-			String version = "";
-			String repoVersion = "";
-			String logo = "";
-			String url = "";
-			String image = "";
-			String dir = "";
-			String mcVersion = "";
+			String name = "NoName";
+			String author = "Anonymous";
+			String version = "1.0.0";
+			String repoVersion;
+			String logo;
+			String url;
+			String image;
+			String dir;
+			String mcVersion = "1.7.10";
 			String serverPack = "";
-			String provideServer = "";
+			String provideServer = "N";
 			boolean provideServerboolean = false;
-			String provideServerString = "";
+			String provideServerString = "No";
 			String description = "";
 			String mods = "";
-			String oldVersions = "";
+			String oldVersions;
 			String shortname = "";
 			String ValidateInfo = "";
 			
@@ -553,27 +565,33 @@ public class Modpack {
 				}
 				
 				System.out.println("Modpack name: " + name);
-				do{
-					entry = Main.scanner.nextLine();
-				}while(entry.isEmpty() && name.isEmpty());
+				entry = Main.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					name = entry;
 				}
 				
+				//Auto-generate shortname proposition
+				char tempchar;
+				for ( int i=0;i<name.length();i++){
+					tempchar = name.charAt(i);
+		    		
+		    		if (Character.isSpaceChar(tempchar)){
+		    			break;
+		    		}else if ("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ".contains(String.valueOf(tempchar))){
+		    			shortname += tempchar;
+		    		}
+		    	}shortname = shortname.toUpperCase();
+				
 				System.out.println("Shortened modpack name (TNT, FTB...): " + shortname);
-				do{
-					entry = Main.scanner.nextLine();
-				}while(entry.isEmpty() && shortname.isEmpty());
+				entry = Main.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					shortname = entry;
 				}
 				
 				System.out.println("Modpack author: " + author);
-				do{
-					entry = Main.scanner.nextLine();
-				}while(entry.isEmpty() && author.isEmpty());
+				entry = Main.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					author = entry;
@@ -581,8 +599,8 @@ public class Modpack {
 				
 				System.out.println("Initial version (x / x.x / x.x.x ...): " + version);
 				entry = Main.scanner.nextLine();
-				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") || ( entry.isEmpty() && version.isEmpty() ) ){
-					System.out.println("Incorrect format. Please use only number and dots");
+				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") ){
+					System.out.print("Incorrect format. Please use only number and dots: ");
 					entry = Main.scanner.nextLine();
 				}
 				
@@ -598,10 +616,10 @@ public class Modpack {
 				image = shortname + "Splash.png";
 				dir = shortname;
 				
-				System.out.println("Minecraft version: (1.x.x) " + mcVersion);
+				System.out.println("Minecraft version (1.x.x): " + mcVersion);
 				entry = Main.scanner.nextLine();
-				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") || ( entry.isEmpty() && mcVersion.isEmpty() ) ){
-					System.out.println("Incorrect format. Please use only number and dots");
+				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") ){
+					System.out.print("Incorrect format. Please use only number and dots: ");
 					entry = Main.scanner.nextLine();
 				}
 				
@@ -609,40 +627,38 @@ public class Modpack {
 					mcVersion = entry;
 				}
 				
-				System.out.println("Provide server version ? (Y/N) " + provideServer.toUpperCase());
+				System.out.println("Provide server version ? (Y/N): " + provideServer.toUpperCase());
 				stay = true;
 				while(stay){
 					entry = Main.scanner.nextLine();
-					if ( entry.equals("Y") || entry.equals("y") ){
+					if ("Yy".contains(String.valueOf(entry))){
 						provideServer = entry;
 						provideServerboolean = true;
 						provideServerString = "Yes";
 						serverPack = shortname + "Server.zip";
 						stay = false;
-					}else if ( entry.equals("N") || entry.equals("n") ){
+					}else if ("Nn".contains(String.valueOf(entry))){
 						provideServer = entry;
 						provideServerboolean = false;
 						provideServerString = "No";
 						serverPack = "";
 						stay = false;
-					}else if( entry.isEmpty() ){
+					}else if( entry.isEmpty()){
 						stay = false;
 					}else{
 						System.out.print("Please choose Y or N: ");
 					}
 				}
 				
+				description = name + " by " + author;
+				
 				System.out.println("Modpack description: " + description);
 				entry = Main.scanner.nextLine();
 				
-				if (!entry.isEmpty()){
+				if (!entry.isEmpty())
 					description = entry;
-				}else if(description.isEmpty()){
-					description = name + " by " + author;
-				}
 				
-				System.out.println("Mods presents in the modpack: (Press \"Enter\" when you finish) " + mods);
-				
+				System.out.println("Mods: (Press \"Enter\" when you finish) " + mods);
 				entry = Main.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
@@ -655,7 +671,6 @@ public class Modpack {
 				}
 				
 				Resources.clear();
-				
 				System.out.println("Summary:");
 				System.out.println("Modpack name: " + name);
 				System.out.println("Shortened modpack name: " + shortname);
@@ -672,9 +687,9 @@ public class Modpack {
 				System.out.println("Modpack description: " + description);
 				
 				System.out.println("\nFurther information: ");
-				System.out.println("Logo file name (Image at the left of the modpack): " + logo);
-				System.out.println("Image file name (Image at the top of the description): " + image);
-				System.out.println("Name and path of client zip file: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + url);
+				System.out.println("Logo file (Image at the left of the modpack): /FTB2/" + logo);
+				System.out.println("Image file (Image at the top of the description): /FTB2/" + image);
+				System.out.println("Zip file path: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + url);
 				if (provideServerboolean){
 					System.out.println("Name and path of server zip: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + serverPack);
 				}else{
@@ -686,9 +701,7 @@ public class Modpack {
 				stay = true;
 				while(stay){
 					ValidateInfo = Main.scanner.nextLine();
-					if ( ValidateInfo.equals("Y") || ValidateInfo.equals("y") ){
-						stay = false;
-					}else if ( ValidateInfo.equals("N") || ValidateInfo.equals("n") ){
+					if ("YyNn".contains(String.valueOf(ValidateInfo)) && !ValidateInfo.isEmpty()){
 						stay = false;
 					}else{
 						System.out.print("Please choose Y or N: ");

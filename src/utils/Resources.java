@@ -19,27 +19,20 @@ import org.w3c.dom.Element;
 public class Resources {
 	
 	//Clear the screen (have to be modified)
-	public final static void clear()
-	{
-	    try
-	    {
+	public final static void clear(){
+		try{
 	        final String os = System.getProperty("os.name");
-
-	        if (os.contains("Windows"))
-	        {
+	        if (os.contains("Windows")){
 	        	for (int i = 0; i < 50; ++i) System.out.println();
-	        }
-	        else
-	        {
+	        }else{
 	            Runtime.getRuntime().exec("clear");
 	        }
-	    }
-	    catch (final Exception e)
+	    }catch (final Exception e)
 	    {
-	        //  Handle any exceptions.
+	    	e.printStackTrace();
 	    }
 	}
-	
+
 	//Detect if modpacks.xml is present and create it if not
 	public static void newFile() {
 		

@@ -81,36 +81,55 @@ public class Modpack {
 				
 				System.out.println("\n" + back + ". Back");
 				
-				choixModpack = Main.scanner.nextLine();
+				choixModpack = Menu.scanner.nextLine();
 				if (choixModpack.isEmpty()) choixModpack = "0";
 				choixModpackInt = Integer.parseInt(choixModpack);
 			}while(choixModpackInt > back || choixModpackInt < 1);
 			
 			if (choixModpackInt == back){
 				return;
+				
 			}else if (choixModpackInt < (i+1)/2 && choixModpackInt >= 0){
-				if (choice.equals("display")){
+				
+				switch(choice){
+				case "display":
 					Modpack.display(choixModpackInt*2-1,  Locations.modpackFile);
-				}else if (choice.equals("edit")){
+
+				case "edit":
 					Modpack.edit(choixModpackInt*2-1,  Locations.modpackFile);
-				}else if (choice.equals("update")){
+
+				case "update":
 					Modpack.update(choixModpackInt*2-1,  Locations.modpackFile);
-				}else if (choice.equals("remove")){
+
+				case "remove":
 					Modpack.remove(choixModpackInt*2-1,  Locations.modpackFile);
+
+				case "manageMods":
+					Mods.manage(choixModpackInt*2-1,  Locations.modpackFile);
 				}
+				
 			}else if(choixModpackInt >= (i+1)/2 && choixModpackInt < back){
-				if (choice.equals("display")){
+				
+				switch(choice){
+				case "display":
 					Modpack.display( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
-				}else if (choice.equals("edit")){
+
+				case "edit":
 					Modpack.edit( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
-				}else if (choice.equals("update")){
+
+				case "update":
 					Modpack.update( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
-				}else if (choice.equals("remove")){
+
+				case "remove":
 					Modpack.remove( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+
+				case "manageMods":
+					Mods.manage( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
 				}
 			}
 			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
 		} catch (NumberFormatException e){
 			Modpack.list(choice);
 		}return;
@@ -181,7 +200,7 @@ public class Modpack {
 			System.out.println("oldVersions: " + oldVersions);
 			
 			System.out.println("\n\nPress \"Enter\" to continue");
-			Main.scanner.nextLine();
+			Menu.scanner.nextLine();
 			
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
@@ -256,7 +275,7 @@ public class Modpack {
 				System.out.println("\nWhat value do you want to edit ? (Press \"Enter\" when you finish)");
 				System.out.println("Leave blank to keep initials values\n");
 				do{
-					choixEdition = Main.scanner.nextLine();
+					choixEdition = Menu.scanner.nextLine();
 				}while ( !choixEdition.equals("1") && !choixEdition.equals("2") && !choixEdition.equals("3") && !choixEdition.equals("4") && !choixEdition.equals("5") && !choixEdition.equals("6") && !choixEdition.equals("7") && !choixEdition.equals("8") && !choixEdition.equals("9") && !choixEdition.equals("10") && !choixEdition.equals("11") && !choixEdition.equals("12") && !choixEdition.equals("13") && !choixEdition.isEmpty() );
 				
 				if (!choixEdition.isEmpty()){
@@ -265,7 +284,7 @@ public class Modpack {
 					case "1":
 						System.out.println("Old value: " + name + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && name.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -276,7 +295,7 @@ public class Modpack {
 					case "2":
 						System.out.println("Old value: " + author + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && author.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -287,7 +306,7 @@ public class Modpack {
 					case "3":
 						System.out.println("Old value: " + version + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && version.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -298,7 +317,7 @@ public class Modpack {
 					case "4":
 						System.out.println("Old value: " + logo + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && logo.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -309,7 +328,7 @@ public class Modpack {
 					case "5":
 						System.out.println("Old value: " + url + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && url.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -320,7 +339,7 @@ public class Modpack {
 					case "6":
 						System.out.println("Old value: " + image + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && image.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -331,7 +350,7 @@ public class Modpack {
 					case "7":
 						System.out.println("Old value: " + dir + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && dir.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -342,7 +361,7 @@ public class Modpack {
 					case "8":
 						System.out.println("Old value: " + mcVersion + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && mcVersion.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -353,7 +372,7 @@ public class Modpack {
 					case "9":
 						System.out.println("Old value: " + serverPack + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && serverPack.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -364,7 +383,7 @@ public class Modpack {
 					case "10":
 						System.out.println("Old value: " + description + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && description.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -375,7 +394,7 @@ public class Modpack {
 					case "11":
 						System.out.println("Old value: " + mods + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && mods.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -386,7 +405,7 @@ public class Modpack {
 					case "12":
 						System.out.println("Old value: " + oldVersions + "\n");
 						do{
-							entry = Main.scanner.nextLine();
+							entry = Menu.scanner.nextLine();
 						}while(entry.isEmpty() && oldVersions.isEmpty());
 						
 						if (!entry.isEmpty()){
@@ -461,10 +480,10 @@ public class Modpack {
 			System.out.println("Current version: " + version);
 			System.out.println("\nPlease enter new version (\"Enter\" to cancel)");
 			
-			newVersion = Main.scanner.nextLine();
+			newVersion = Menu.scanner.nextLine();
 			while (newVersion.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || newVersion.contains(" ") ){
 				System.out.println("Incorrect format. Please use only number and dots");
-				newVersion = Main.scanner.nextLine();
+				newVersion = Menu.scanner.nextLine();
 			}
 			
 			if (!newVersion.isEmpty()){
@@ -496,7 +515,7 @@ public class Modpack {
 		}
 	}
 	
-	public static void addNew() {
+	public static void create() {
 		
 		String entry;
 		String file = "";
@@ -508,7 +527,7 @@ public class Modpack {
 			System.out.println("In what file do you want to add modpack ?");
 			System.out.println("1. modpacks.xml");
 			System.out.println("2. thirdparty.xml");
-			entry = Main.scanner.nextLine();
+			entry = Menu.scanner.nextLine();
 			
 			switch(entry){
 			
@@ -565,7 +584,7 @@ public class Modpack {
 				}
 				
 				System.out.println("Modpack name: " + name);
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					name = entry;
@@ -584,24 +603,24 @@ public class Modpack {
 		    	}shortname = shortname.toUpperCase();
 				
 				System.out.println("Shortened modpack name (TNT, FTB...): " + shortname);
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					shortname = entry;
 				}
 				
 				System.out.println("Modpack author: " + author);
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					author = entry;
 				}
 				
 				System.out.println("Initial version (x / x.x / x.x.x ...): " + version);
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") ){
 					System.out.print("Incorrect format. Please use only number and dots: ");
-					entry = Main.scanner.nextLine();
+					entry = Menu.scanner.nextLine();
 				}
 				
 				if (!entry.isEmpty()){
@@ -617,10 +636,10 @@ public class Modpack {
 				dir = shortname;
 				
 				System.out.println("Minecraft version (1.x.x): " + mcVersion);
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") ){
 					System.out.print("Incorrect format. Please use only number and dots: ");
-					entry = Main.scanner.nextLine();
+					entry = Menu.scanner.nextLine();
 				}
 				
 				if (!entry.isEmpty()){
@@ -630,7 +649,7 @@ public class Modpack {
 				System.out.println("Provide server version ? (Y/N): " + provideServer.toUpperCase());
 				stay = true;
 				while(stay){
-					entry = Main.scanner.nextLine();
+					entry = Menu.scanner.nextLine();
 					if ("Yy".contains(String.valueOf(entry))){
 						provideServer = entry;
 						provideServerboolean = true;
@@ -653,20 +672,20 @@ public class Modpack {
 				description = name + " by " + author;
 				
 				System.out.println("Modpack description: " + description);
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty())
 					description = entry;
 				
 				System.out.println("Mods: (Press \"Enter\" when you finish) " + mods);
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					mods = entry;
 				}
 				
 				while( !entry.isEmpty() ){
-					entry = Main.scanner.nextLine();
+					entry = Menu.scanner.nextLine();
 					if (!entry.isEmpty()) mods = mods + "; " + entry;
 				}
 				
@@ -682,7 +701,7 @@ public class Modpack {
 				if (mods.isEmpty()){
 					System.out.println("None");
 				}else{
-					System.out.println("\n " + mods.replace("; ", "\n "));
+					System.out.println("\n " + mods.replace("; ", "\n- "));
 				}
 				System.out.println("Modpack description: " + description);
 				
@@ -700,7 +719,7 @@ public class Modpack {
 				
 				stay = true;
 				while(stay){
-					ValidateInfo = Main.scanner.nextLine();
+					ValidateInfo = Menu.scanner.nextLine();
 					if ("YyNn".contains(String.valueOf(ValidateInfo)) && !ValidateInfo.isEmpty()){
 						stay = false;
 					}else{
@@ -779,7 +798,7 @@ public class Modpack {
 			boolean stay = true;
 			String entry = "";
 			while(stay){
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				if ( entry.equals("Y") || entry.equals("y") ){
 					stay = false;
 				}else if ( entry.equals("N") || entry.equals("n") ){

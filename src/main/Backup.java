@@ -36,10 +36,10 @@ public class Backup {
 			Files.copy(new File(Locations.backupPath + backupFile).toPath(), new File (Locations.path + file).toPath());
 			Files.delete(new File(Locations.backupPath + backupFile).toPath());
 			System.out.println("\nBackup restored successfully !");
-			Main.scanner.nextLine();
+			Menu.scanner.nextLine();
 		}catch (IOException e) {
 			System.out.println("\nAn error occured while trying to restore backup !");
-			Main.scanner.nextLine();
+			Menu.scanner.nextLine();
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class Backup {
 			boolean stay = true;
 			String entry = "";
 			while(stay){
-				entry = Main.scanner.nextLine();
+				entry = Menu.scanner.nextLine();
 				if ( entry.equals("Y") || entry.equals("y") ){
 					stay = false;
 				}else if ( entry.equals("N") || entry.equals("n") ){
@@ -61,7 +61,7 @@ public class Backup {
 			Files.delete(new File(Locations.backupPath + backupFile).toPath());
 		}catch (IOException e) {
 			System.out.println("\nAn orror occured while trying to restore backup !");
-			Main.scanner.nextLine();
+			Menu.scanner.nextLine();
 		}
 	}
 }

@@ -94,18 +94,23 @@ public class Modpack {
 				switch(choice){
 				case "display":
 					Modpack.display(choixModpackInt*2-1,  Locations.modpackFile);
+					break;
 
 				case "edit":
 					Modpack.edit(choixModpackInt*2-1,  Locations.modpackFile);
+					break;
 
 				case "update":
 					Modpack.update(choixModpackInt*2-1,  Locations.modpackFile);
+					break;
 
 				case "remove":
 					Modpack.remove(choixModpackInt*2-1,  Locations.modpackFile);
+					break;
 
-				case "manageMods":
+				case "manage":
 					Mods.manage(choixModpackInt*2-1,  Locations.modpackFile);
+					break;
 				}
 				
 			}else if(choixModpackInt >= (i+1)/2 && choixModpackInt < back){
@@ -113,18 +118,23 @@ public class Modpack {
 				switch(choice){
 				case "display":
 					Modpack.display( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					break;
 
 				case "edit":
 					Modpack.edit( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					break;
 
 				case "update":
 					Modpack.update( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					break;
 
 				case "remove":
 					Modpack.remove( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					break;
 
-				case "manageMods":
+				case "manage":
 					Mods.manage( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					break;
 				}
 			}
 			

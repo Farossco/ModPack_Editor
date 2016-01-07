@@ -65,7 +65,7 @@ public class Menu {
 			break;
 			
 		case "6":
-			Modpack.list("manageMods");
+			Modpack.list("manage");
 			break;
 			
 		case "7":

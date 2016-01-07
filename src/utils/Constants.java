@@ -1,6 +1,6 @@
 package utils;
 
-public class Locations {
+public class Constants {
 	
 	public static final String modpackFile = "modpacks.xml";
 	public static final String thirdpartyFile = "thirdparty.xml";

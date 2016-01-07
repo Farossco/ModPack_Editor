@@ -10,7 +10,7 @@ public class Backup {
 	
 	//Detect if the backup file is present
 	public static boolean isPresent(String backupFile){
-		java.io.File monFichier = new java.io.File(Locations.backupPath + backupFile);
+		java.io.File monFichier = new java.io.File(Constants.backupPath + backupFile);
 		if (monFichier.exists()) {
 			return true;
 		}else{
@@ -22,19 +22,19 @@ public class Backup {
 		
 		String backupFile = "";
 		
-		if (file.equals(Locations.modpackFile)){
-			backupFile = Locations.modpackBackupFile;
-		}else if (file.equals(Locations.thirdpartyFile)){
-			backupFile = Locations.thirdpartyBackupFile;
+		if (file.equals(Constants.modpackFile)){
+			backupFile = Constants.modpackBackupFile;
+		}else if (file.equals(Constants.thirdpartyFile)){
+			backupFile = Constants.thirdpartyBackupFile;
 		}else{
 			System.out.println("Impossible to create backup !\n");
 			return;
 		}
 		
 		try{
-			if ( new File(Locations.backupPath + backupFile).exists() )
-				Files.delete(new File(Locations.backupPath + backupFile).toPath());
-			Files.copy(new File(Locations.path + file).toPath(), new File(Locations.backupPath + backupFile).toPath());
+			if ( new File(Constants.backupPath + backupFile).exists() )
+				Files.delete(new File(Constants.backupPath + backupFile).toPath());
+			Files.copy(new File(Constants.path + file).toPath(), new File(Constants.backupPath + backupFile).toPath());
 			System.out.println("A backup of the " + file + " file has been made\n");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,9 +43,9 @@ public class Backup {
 	
 	public static void restore(String backupFile, String file){
 		try {
-			Files.delete(new File(Locations.path + file).toPath());
-			Files.copy(new File(Locations.backupPath + backupFile).toPath(), new File (Locations.path + file).toPath());
-			Files.delete(new File(Locations.backupPath + backupFile).toPath());
+			Files.delete(new File(Constants.path + file).toPath());
+			Files.copy(new File(Constants.backupPath + backupFile).toPath(), new File (Constants.path + file).toPath());
+			Files.delete(new File(Constants.backupPath + backupFile).toPath());
 			System.out.println("\nBackup restored successfully !");
 			Menu.scanner.nextLine();
 		}catch (IOException e) {
@@ -69,7 +69,7 @@ public class Backup {
 					System.out.print("Please choose Y or N: ");
 				}
 			}
-			Files.delete(new File(Locations.backupPath + backupFile).toPath());
+			Files.delete(new File(Constants.backupPath + backupFile).toPath());
 		}catch (IOException e) {
 			System.out.println("\nAn orror occured while trying to restore backup !");
 			Menu.scanner.nextLine();

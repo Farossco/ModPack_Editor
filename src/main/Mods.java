@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import utils.Locations;
+import utils.Constants;
 import utils.Resources;
 
 public class Mods {
@@ -88,7 +88,7 @@ public class Mods {
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Document modpacksDocument = builder.parse(new File(Constants.path + file));
 			XMLVersion = modpacksDocument.getXmlVersion();
 			XMLEncoding = modpacksDocument.getXmlEncoding();
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
@@ -234,7 +234,7 @@ public class Mods {
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(modpacksDocument);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
+			final StreamResult sortie = new StreamResult(new File(Constants.path + file));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);

@@ -36,8 +36,8 @@ public class Resources {
 	//Detect if modpacks.xml is present and create it if not
 	public static void newFile() {
 		
-		new File(Locations.path).mkdir();
-		java.io.File monFichier = new java.io.File(Locations.path + Locations.modpackFile);
+		new File(Constants.path).mkdir();
+		java.io.File monFichier = new java.io.File(Constants.path + Constants.modpackFile);
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		if ( !monFichier.exists() ) {
@@ -53,7 +53,7 @@ public class Resources {
 				final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				final Transformer transformer = transformerFactory.newTransformer();
 				final DOMSource source = new DOMSource(document);
-				final StreamResult sortie = new StreamResult(new File(Locations.path + Locations.modpackFile));
+				final StreamResult sortie = new StreamResult(new File(Constants.path + Constants.modpackFile));
 				
 				transformer.setOutputProperty(OutputKeys.VERSION, "1.0");
 				transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");

@@ -42,7 +42,7 @@ public class Modpack {
 				
 			    final DocumentBuilder builder = factory.newDocumentBuilder();
 			    
-			    final Document modpacksDocument = builder.parse(new File(Locations.path + Locations.modpackFile));
+			    final Document modpacksDocument = builder.parse(new File(Constants.path + Constants.modpackFile));
 				final Element modpacksRacine = modpacksDocument.getDocumentElement();
 				final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 				final int modpacksNbRacineNoeuds = modpacksRacineNoeuds.getLength();
@@ -60,7 +60,7 @@ public class Modpack {
 					System.out.println("- No modpack detected");
 				}
 
-				final Document thirdpartyDocument = builder.parse(new File(Locations.path + Locations.thirdpartyFile));
+				final Document thirdpartyDocument = builder.parse(new File(Constants.path + Constants.thirdpartyFile));
 				final Element thirdpartyRacine = thirdpartyDocument.getDocumentElement();
 				final NodeList thirdpartyRacineNoeuds = thirdpartyRacine.getChildNodes();
 				final int thirdpartyNbRacineNoeuds = thirdpartyRacineNoeuds.getLength();
@@ -93,23 +93,23 @@ public class Modpack {
 				
 				switch(choice){
 				case "display":
-					Modpack.display(choixModpackInt*2-1,  Locations.modpackFile);
+					Modpack.display(choixModpackInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "edit":
-					Modpack.edit(choixModpackInt*2-1,  Locations.modpackFile);
+					Modpack.edit(choixModpackInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "update":
-					Modpack.update(choixModpackInt*2-1,  Locations.modpackFile);
+					Modpack.update(choixModpackInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "remove":
-					Modpack.remove(choixModpackInt*2-1,  Locations.modpackFile);
+					Modpack.remove(choixModpackInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "manage":
-					Mods.manage(choixModpackInt*2-1,  Locations.modpackFile);
+					Mods.manage(choixModpackInt*2-1,  Constants.modpackFile);
 					break;
 				}
 				
@@ -117,23 +117,23 @@ public class Modpack {
 				
 				switch(choice){
 				case "display":
-					Modpack.display( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					Modpack.display( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "edit":
-					Modpack.edit( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					Modpack.edit( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "update":
-					Modpack.update( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					Modpack.update( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "remove":
-					Modpack.remove( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					Modpack.remove( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "manage":
-					Mods.manage( (choixModpackInt - (i-1)/2) * 2 - 1, Locations.thirdpartyFile);
+					Mods.manage( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 				}
 			}
@@ -168,7 +168,7 @@ public class Modpack {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			
 			
-			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Document modpacksDocument = builder.parse(new File(Constants.path + file));
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
 			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
@@ -240,7 +240,7 @@ public class Modpack {
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Document modpacksDocument = builder.parse(new File(Constants.path + file));
 			XMLVersion = modpacksDocument.getXmlVersion();
 			XMLEncoding = modpacksDocument.getXmlEncoding();
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
@@ -447,7 +447,7 @@ public class Modpack {
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(modpacksDocument);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
+			final StreamResult sortie = new StreamResult(new File(Constants.path + file));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);
@@ -471,7 +471,7 @@ public class Modpack {
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Document modpacksDocument = builder.parse(new File(Constants.path + file));
 			XMLVersion = modpacksDocument.getXmlVersion();
 			XMLEncoding = modpacksDocument.getXmlEncoding();
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
@@ -516,7 +516,7 @@ public class Modpack {
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(modpacksDocument);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
+			final StreamResult sortie = new StreamResult(new File(Constants.path + file));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);
@@ -546,11 +546,11 @@ public class Modpack {
 			switch(entry){
 			
 			case "1":
-				file = Locations.modpackFile;
+				file = Constants.modpackFile;
 				stay = false;
 				break;
 			case "2":
-				file = Locations.thirdpartyFile;
+				file = Constants.thirdpartyFile;
 				stay = false;
 				break;
 			}
@@ -558,7 +558,7 @@ public class Modpack {
 
 		try {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Document modpacksDocument = builder.parse(new File(Constants.path + file));
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
 			final Element modpack = modpacksDocument.createElement("modpack");
 			modpacksRacine.appendChild(modpack);
@@ -762,7 +762,7 @@ public class Modpack {
 
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(modpacksDocument);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
+			final StreamResult sortie = new StreamResult(new File(Constants.path + file));
 
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);
@@ -787,7 +787,7 @@ public class Modpack {
 		try {
 			//Reading modpacks.xml
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final Document modpacksDocument = builder.parse(new File(Locations.path + file));
+			final Document modpacksDocument = builder.parse(new File(Constants.path + file));
 			XMLVersion = modpacksDocument.getXmlVersion();
 			XMLEncoding = modpacksDocument.getXmlEncoding();
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
@@ -821,7 +821,7 @@ public class Modpack {
 	
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			final DOMSource source = new DOMSource(modpacksDocument);
-			final StreamResult sortie = new StreamResult(new File(Locations.path + file));
+			final StreamResult sortie = new StreamResult(new File(Constants.path + file));
 	
 			final Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.VERSION, XMLVersion);

@@ -21,17 +21,17 @@ public class Menu {
 		System.out.println("4. Add a new modpack");
 		System.out.println("5. Remove a modpack");
 		System.out.println("6. Manage mods");
-		if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
+		if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
 			System.out.println("7. Restore backup file (modpack.xml)");
 			System.out.println("8. Restore backup file (thirdparty.xml)");
 			System.out.println("9. Remove backup file (modpack.xml)");
 			System.out.println("10. Remove backup file (thirdparty.xml)");
 			System.out.println("11. Quit");
-		}else if (Backup.isPresent(Locations.modpackBackupFile)){
+		}else if (Backup.isPresent(Constants.modpackBackupFile)){
 			System.out.println("7. Restore backup file (modpack.xml)");
 			System.out.println("8. Remove backup file (modpack.xml)");
 			System.out.println("9. Quit");
-		}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
+		}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
 			System.out.println("7. Restore backup file (thirdparty.xml)");
 			System.out.println("8. Remove backup file (thirdparty.xml)");
 			System.out.println("9. Quit");
@@ -69,44 +69,44 @@ public class Menu {
 			break;
 			
 		case "7":
-			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
-				Backup.restore(Locations.modpackBackupFile, Locations.modpackFile);
-			}else if (Backup.isPresent(Locations.modpackBackupFile)){
-				Backup.restore(Locations.modpackBackupFile, Locations.modpackFile);
-			}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
-				Backup.restore(Locations.thirdpartyBackupFile, Locations.thirdpartyFile);
+			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
+				Backup.restore(Constants.modpackBackupFile, Constants.modpackFile);
+			}else if (Backup.isPresent(Constants.modpackBackupFile)){
+				Backup.restore(Constants.modpackBackupFile, Constants.modpackFile);
+			}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
+				Backup.restore(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
 			}else{
 				return;
 			}break;
 			
 		case "8":
-			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
-				Backup.restore(Locations.thirdpartyBackupFile, Locations.thirdpartyFile);
-			}else if (Backup.isPresent(Locations.modpackBackupFile)){
-				Backup.remove(Locations.modpackBackupFile);
-			}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
-				Backup.remove(Locations.thirdpartyBackupFile);
+			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
+				Backup.restore(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
+			}else if (Backup.isPresent(Constants.modpackBackupFile)){
+				Backup.remove(Constants.modpackBackupFile);
+			}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
+				Backup.remove(Constants.thirdpartyBackupFile);
 			}
 			break;
 			
 		case "9":
-			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
-				Backup.remove(Locations.modpackBackupFile);
-			}else if (Backup.isPresent(Locations.modpackBackupFile)){
+			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
+				Backup.remove(Constants.modpackBackupFile);
+			}else if (Backup.isPresent(Constants.modpackBackupFile)){
 				return;
-			}else if (Backup.isPresent(Locations.thirdpartyBackupFile)){
+			}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
 				return;
 			}
 			break;
 			
 		case "10":
-			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
-				Backup.remove(Locations.thirdpartyBackupFile);
+			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
+				Backup.remove(Constants.thirdpartyBackupFile);
 			}
 			break;
 			
 		case "11":
-			if (Backup.isPresent(Locations.thirdpartyBackupFile) && Backup.isPresent(Locations.modpackBackupFile)){
+			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
 				return;
 			}
 		}

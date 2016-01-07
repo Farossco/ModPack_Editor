@@ -18,13 +18,24 @@ public class Backup {
 		}
 	}
 		
-	public static void create(String backupFile, String file) {
+	public static void create(String file) {
+		
+		String backupFile = "";
+		
+		if (file.equals(Locations.modpackFile)){
+			backupFile = Locations.modpackBackupFile;
+		}else if (file.equals(Locations.thirdpartyFile)){
+			backupFile = Locations.thirdpartyBackupFile;
+		}else{
+			System.out.println("Impossible to create backup !\n");
+			return;
+		}
 		
 		try{
 			if ( new File(Locations.backupPath + backupFile).exists() )
 				Files.delete(new File(Locations.backupPath + backupFile).toPath());
-			Files.copy(new File(Locations.path + Locations.modpackFile).toPath(), new File(Locations.backupPath + backupFile).toPath());
-			System.out.println("A backup of the " + file + " file has been made");
+			Files.copy(new File(Locations.path + file).toPath(), new File(Locations.backupPath + backupFile).toPath());
+			System.out.println("A backup of the " + file + " file has been made\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

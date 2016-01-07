@@ -268,6 +268,7 @@ public class Modpack {
 			do{	
 			
 				Resources.clear();
+				Backup.create(file);
 				
 				System.out.println("1. name: " + name);
 				System.out.println("2. author: " + author);
@@ -487,6 +488,8 @@ public class Modpack {
 			String newVersion = "";
 			
 			Resources.clear();
+			Backup.create(file);
+			
 			System.out.println("Current version: " + version);
 			System.out.println("\nPlease enter new version (\"Enter\" to cancel)");
 			
@@ -534,6 +537,7 @@ public class Modpack {
 		while (stay){
 			
 			Resources.clear();
+			Backup.create(file);
 			System.out.println("In what file do you want to add modpack ?");
 			System.out.println("1. modpacks.xml");
 			System.out.println("2. thirdparty.xml");
@@ -794,16 +798,8 @@ public class Modpack {
 			name = modpack.getAttribute("name");
 			
 			Resources.clear();
-			
-			if (file.equals(Locations.modpackFile)){
-				Backup.create(Locations.modpackBackupFile, Locations.modpackFile);
-			}else if (file.equals(Locations.thirdpartyFile)){
-				Backup.create(Locations.thirdpartyBackupFile, Locations.thirdpartyFile);
-			}else{
-				System.out.println("Impossible to create backup !");
-			}
+			Backup.create(file);
 				
-			
 			System.out.println("Are you sure you want to delete \"" + name + "\" ? (Y/N) ");
 			boolean stay = true;
 			String entry = "";

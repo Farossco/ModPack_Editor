@@ -537,10 +537,10 @@ public class Modpack {
 		while (stay){
 			
 			Resources.clear();
-			Backup.create(file);
 			System.out.println("In what file do you want to add modpack ?");
 			System.out.println("1. modpacks.xml");
 			System.out.println("2. thirdparty.xml");
+			System.out.println("3. Back");
 			entry = Menu.scanner.nextLine();
 			
 			switch(entry){
@@ -553,9 +553,11 @@ public class Modpack {
 				file = Constants.thirdpartyFile;
 				stay = false;
 				break;
+			case "3":
+				return;
 			}
 		}
-
+		
 		try {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document modpacksDocument = builder.parse(new File(Constants.path + file));
@@ -590,14 +592,15 @@ public class Modpack {
 			
 			do{
 				Resources.clear();
+				Backup.create(file);
 				System.out.println("Welcome to the modpack adding program");
 				if (!name.isEmpty()){
-					System.out.println("Leave blank to keep initials values\n");
+					System.out.println("Leave blank to keep initials values (values in brackets)\n");
 				}else{
 					System.out.println("\n");
 				}
 				
-				System.out.println("Modpack name: " + name);
+				System.out.println("Modpack name: (" + name + ")");
 				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
@@ -606,31 +609,34 @@ public class Modpack {
 				
 				//Auto-generate shortname proposition
 				char tempchar;
-				for ( int i=0;i<name.length();i++){
-					tempchar = name.charAt(i);
-		    		
-		    		if (Character.isSpaceChar(tempchar)){
-		    			break;
-		    		}else if ("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ".contains(String.valueOf(tempchar))){
-		    			shortname += tempchar;
-		    		}
-		    	}shortname = shortname.toUpperCase();
+				if (shortname.isEmpty()){
+					for ( int i=0;i<name.length();i++){
+						tempchar = name.charAt(i);
+			    		
+			    		if (Character.isSpaceChar(tempchar)){
+			    			break;
+			    		}else if ("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ".contains(String.valueOf(tempchar))){
+			    			shortname += tempchar;
+			    		}
+			    	}
+					shortname = shortname.toUpperCase();
+				}
 				
-				System.out.println("Shortened modpack name (TNT, FTB...): " + shortname);
+				System.out.println("Shortened modpack name: (" + shortname + ")");
 				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					shortname = entry;
 				}
 				
-				System.out.println("Modpack author: " + author);
+				System.out.println("Modpack author: (" + author + ")");
 				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
 					author = entry;
 				}
 				
-				System.out.println("Initial version (x / x.x / x.x.x ...): " + version);
+				System.out.println("Initial version (x / x.x / x.x.x ...): (" + version + ")");
 				entry = Menu.scanner.nextLine();
 				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") ){
 					System.out.print("Incorrect format. Please use only number and dots: ");
@@ -649,7 +655,7 @@ public class Modpack {
 				image = shortname + "Splash.png";
 				dir = shortname;
 				
-				System.out.println("Minecraft version (1.x.x): " + mcVersion);
+				System.out.println("Minecraft version (1.x.x) : (" + mcVersion + ")");
 				entry = Menu.scanner.nextLine();
 				while (entry.matches(".*[a-zA-Z²&é\"\'(è_çà)=,;:!?/§ù*^$¨£%µ+°~#{|`\\^@}].*") || entry.contains(" ") ){
 					System.out.print("Incorrect format. Please use only number and dots: ");
@@ -660,23 +666,23 @@ public class Modpack {
 					mcVersion = entry;
 				}
 				
-				System.out.println("Provide server version ? (Y/N): " + provideServer.toUpperCase());
+				System.out.println("Provide server version ? (Y/N): (" + provideServer.toUpperCase() + ")");
 				stay = true;
 				while(stay){
 					entry = Menu.scanner.nextLine();
-					if ("Yy".contains(String.valueOf(entry))){
+					if ("Y".equals(entry.toUpperCase())){
 						provideServer = entry;
 						provideServerboolean = true;
 						provideServerString = "Yes";
 						serverPack = shortname + "Server.zip";
 						stay = false;
-					}else if ("Nn".contains(String.valueOf(entry))){
+					}else if ("N".equals(entry.toUpperCase())){
 						provideServer = entry;
 						provideServerboolean = false;
 						provideServerString = "No";
 						serverPack = "";
 						stay = false;
-					}else if( entry.isEmpty()){
+					}else if(entry.isEmpty()){
 						stay = false;
 					}else{
 						System.out.print("Please choose Y or N: ");
@@ -685,13 +691,15 @@ public class Modpack {
 				
 				description = name + " by " + author;
 				
-				System.out.println("Modpack description: " + description);
+				System.out.println("Modpack description: (" + description + ")");
 				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty())
 					description = entry;
 				
-				System.out.println("Mods: (Press \"Enter\" when you finish) " + mods);
+				if (mods.isEmpty())
+					mods = "None";
+				System.out.println("Mods: (Press \"Enter\" when you finish) (" + mods + ")");
 				entry = Menu.scanner.nextLine();
 				
 				if (!entry.isEmpty()){
@@ -715,16 +723,16 @@ public class Modpack {
 				if (mods.isEmpty()){
 					System.out.println("None");
 				}else{
-					System.out.println("\n " + mods.replace("; ", "\n- "));
+					System.out.println("\n- " + mods.replace("; ", "\n- "));
 				}
 				System.out.println("Modpack description: " + description);
 				
 				System.out.println("\nFurther information: ");
 				System.out.println("Logo file (Image at the left of the modpack): /FTB2/" + logo);
 				System.out.println("Image file (Image at the top of the description): /FTB2/" + image);
-				System.out.println("Zip file path: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + url);
+				System.out.println("Client zip file path: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + url);
 				if (provideServerboolean){
-					System.out.println("Name and path of server zip: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + serverPack);
+					System.out.println("Server zip file path: /FTB2/modpacks/" + dir + "/" + repoVersion + "/" + serverPack);
 				}else{
 					System.out.println("Server file not provided");
 				}

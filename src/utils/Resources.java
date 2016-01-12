@@ -25,7 +25,8 @@ public class Resources {
 	        if (os.contains("Windows")){
 	        	for (int i = 0; i < 50; ++i) System.out.println();
 	        }else{
-	            Runtime.getRuntime().exec("clear");
+	        	for (int i = 0; i < 50; ++i) System.out.println();
+	        	Runtime.getRuntime().exec("clear");
 	        }
 	    }catch (final Exception e)
 	    {

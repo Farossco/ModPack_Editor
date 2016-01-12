@@ -26,10 +26,58 @@ public class Mods {
 
 	static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	
-	public static String add(String mods) {
+	public static String sort(String mods) {
+		
+		int j = 0;
+		String mod= ""; //Mod currently analyzed
+		int length = 1;
+		
+		try{
+			for (int i=0;i<mods.length();i++)
+				if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' ') //Getting length of the Tab by reading the occurrences of "; "
+					length++;
+			
+		}catch (StringIndexOutOfBoundsException e){
+			mods = mods.substring(0, mods.length()-1); //If last character is ";" we just delete it
+		}
+		
+		String modsTab[] = new String[length]; //New String with length = number of mods
+		
+		for (int i=0;i<mods.length();i++){
+			
+    		if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' '){ //If we read "; " we write the mod in a new case of the Tab
+    			modsTab[j] = mod;
+    			j++;
+    			i++; //Just jumping a case, so the space is not read
+    			mod = "";
+    		}else{
+    			mod += mods.charAt(i); //Writing word letter by letter
+    		}
+    	}
+		
+		modsTab[j] = mod;
+		j++;
+		
+		Arrays.sort(modsTab); //Sorting mods alphabetically
+		
+		Resources.clear(); //Clear screen
+		System.out.println("Currently present mods:\n");
+		for(int i = 0; i < j; i++)
+        	System.out.println("[" + (i + 1) + "] " + modsTab[i]); //Displaying all mods
+		
+		mods = modsTab[0];
+		for(int i = 1; i < modsTab.length; i++){
+			mods += "; " + modsTab[i];
+		}
+		
+		return mods;
+	}
+	
+	public static String add(String mods, String file) {
 	
 		boolean stay = true;
 		
+		Backup.create(file); //Create Backup
 		System.out.println("Please type mods you want to add: (Press \"Enter\" when you finish) ");
 		
 		do{
@@ -45,10 +93,11 @@ public class Mods {
 		 return mods;
 	}
 	
-	public static String remove(String mods) {
+	public static String remove(String mods, String file) {
 		
 		boolean stay = true;
 		
+		Backup.create(file); //Create Backup
 		System.out.println("Please type the name of the mods you want to remove: (Press \"Enter\" when you finish) ");
 		
 		do{
@@ -112,107 +161,45 @@ public class Mods {
 			
 			//Modpack modifications
 			
-			int j = 0;
-			String mod= ""; //Mod currently analysed
-			int length = 1;
+			boolean stay1 = true;
+			boolean stay2;
 			
-			try{
-				for (int i=0;i<mods.length();i++)
-					if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' ') //Getting length of the Tab by reading the occurences of "; "
-						length++;
+			while(stay1 == true){
+			
+				sort(mods);
+			
+				/*Resources.clear(); //Clear screen
+				System.out.println("Currently present mods:\n");
+				for(int i = 0; i < j; i++)
+	            	System.out.println("[" + (i + 1) + "] " + modsTab[i]); //Displaying all mods*/
+				 
+				System.out.println("\n\nWhat do you want to do ?");
+				System.out.println("1. Add mods");
+				System.out.println("2. Remove mods");
+				System.out.println("3. Finish and apply changes");
 				
-			}catch (StringIndexOutOfBoundsException e){
-				System.out.println("Error, last character of the mod list is a \";\", please remove it");
-				Menu.scanner.nextLine();
-				return;
-			}
-			
-			String modsTab[] = new String[length]; //New String with length = number of modpacks
-			
-			for (int i=0;i<mods.length();i++){
-				
-	    		if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' '){ //If we read "; " we write the mod in a new case of the Tab
-	    			modsTab[j] = mod;
-	    			j++;
-	    			i++; //Just jumping a case, so the space is not read
-	    			mod = "";
-	    		}else{
-	    			mod += mods.charAt(i); //Writing word letter by letter
-	    		}
-	    	}
-			
-			modsTab[j] = mod;
-			j++;
-			
-			Arrays.sort(modsTab); //Sorting mods alphabetically
-			
-			Resources.clear(); //Clear screen
-			System.out.println("Currently present mods:\n");
-			for(int i = 0; i < j; i++)
-            	System.out.println("[" + (i + 1) + "] " + modsTab[i]); //Displaying all mods
-			 
-			System.out.println("\n\nWhat do you want to do ?");
-			System.out.println("1. Add mods");
-			System.out.println("2. Remove mods");
-			System.out.println("3. Back");
-			
-			boolean stay = true;
-			while (stay){	
-				String choice = Menu.scanner.nextLine();
-				switch(choice){
+				stay2 = true;
+				while (stay2){	
+					String choice = Menu.scanner.nextLine();
+					switch(choice){
+						
+					case "1":
+						mods = add(mods, file);
+						stay2 = false;
+						break;
 					
-				case "1":
-					mods = add(mods);
-					stay = false;
-					break;
+					case "2":
+						mods = remove(mods, file);
+						stay2 = false;
+						break;
 				
-				case "2":
-					mods = remove(mods);
-					stay = false;
-					break;
-			
-				case "3":
-					stay = false;
-					break;
+					case "3":
+						stay1 = false;
+						stay2 = false;
+						break;
+					}
 				}
-			}
 			
-			j = 0;
-			mod= "";
-			length = 1;
-			
-			try{
-				for (int i=0;i<mods.length();i++)
-					if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' ')
-						length++;
-				
-			}catch (StringIndexOutOfBoundsException e){
-				System.out.println("Error, last character of the mod list is a \";\", please remove it");
-				Menu.scanner.nextLine();
-				return;
-			}
-			
-			modsTab = new String[length];
-			
-			for (int i=0;i<mods.length();i++){
-				
-	    		if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' '){
-	    			modsTab[j] = mod;
-	    			j++;
-	    			i++;
-	    			mod = "";
-	    		}else{
-	    			mod += mods.charAt(i);
-	    		}
-	    	}
-			modsTab[j] = mod;
-			j++;
-			
-			Arrays.sort(modsTab);
-			
-			mods = modsTab[0];
-			for(int i = 1; i < modsTab.length; i++){
-				mods += "; " + modsTab[i];
 			}
 			
 			//Writing modpacks.xml

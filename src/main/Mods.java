@@ -26,6 +26,44 @@ public class Mods {
 
 	static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	
+	public static void display(String mods) {
+		
+		int j = 0;
+		String mod= ""; //Mod currently analyzed
+		int length = 1;
+		
+		try{
+			for (int i=0;i<mods.length();i++)
+				if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' ') //Getting length of the Tab by reading the occurrences of "; "
+					length++;
+			
+		}catch (StringIndexOutOfBoundsException e){
+			mods = mods.substring(0, mods.length()-1); //If last character is ";" we just delete it
+		}
+		
+		String modsTab[] = new String[length]; //New String with length = number of mods
+		
+		for (int i=0;i<mods.length();i++){
+			
+    		if (mods.charAt(i) == ';' && mods.charAt(i+1) == ' '){ //If we read "; " we write the mod in a new case of the Tab
+    			modsTab[j] = mod;
+    			j++;
+    			i++; //Just jumping a case, so the space is not read
+    			mod = "";
+    		}else{
+    			mod += mods.charAt(i); //Writing word letter by letter
+    		}
+    	}
+		
+		modsTab[j] = mod;
+		j++;
+		
+		Resources.clear(); //Clear screen
+		System.out.println("Currently present mods:\n");
+		for(int i = 0; i < j; i++)
+        	System.out.println("[" + (i + 1) + "] " + modsTab[i]); //Displaying all mods
+		}
+	
 	public static String sort(String mods) {
 		
 		int j = 0;
@@ -59,11 +97,6 @@ public class Mods {
 		j++;
 		
 		Arrays.sort(modsTab); //Sorting mods alphabetically
-		
-		Resources.clear(); //Clear screen
-		System.out.println("Currently present mods:\n");
-		for(int i = 0; i < j; i++)
-        	System.out.println("[" + (i + 1) + "] " + modsTab[i]); //Displaying all mods
 		
 		mods = modsTab[0];
 		for(int i = 1; i < modsTab.length; i++){
@@ -166,7 +199,8 @@ public class Mods {
 			
 			while(stay1 == true){
 			
-				sort(mods);
+				mods = sort(mods);
+				display(mods);
 			
 				/*Resources.clear(); //Clear screen
 				System.out.println("Currently present mods:\n");
@@ -202,6 +236,7 @@ public class Mods {
 			
 			}
 			
+			mods = sort(mods);
 			//Writing modpacks.xml
 		
 			modpack.setAttribute("name", name);

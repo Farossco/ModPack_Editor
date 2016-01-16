@@ -14,7 +14,7 @@ public class Menu {
 		
 		Resources.newFile();
 		Resources.clear();
-		System.out.println("Welcome to the Modpack edition program\nWhat do you want to do ?");
+		System.out.println("-- Modpack edition program v" + Constants.version + " - build " + Constants.build + " --\n\nWhat do you want to do ?");
 		System.out.println("1. Display a modpack");
 		System.out.println("2. Edit a modpack (Raw)");
 		System.out.println("3. Update a modpack");
@@ -22,27 +22,21 @@ public class Menu {
 		System.out.println("5. Remove a modpack");
 		System.out.println("6. Manage mods");
 		if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
-			System.out.println("7. Restore backup file (modpack.xml)");
-			System.out.println("8. Restore backup file (thirdparty.xml)");
-			System.out.println("9. Remove backup file (modpack.xml)");
-			System.out.println("10. Remove backup file (thirdparty.xml)");
-			System.out.println("11. Quit");
+			System.out.println("7. Manage backups (Modpacks and Thirdparty)");
 		}else if (Backup.isPresent(Constants.modpackBackupFile)){
-			System.out.println("7. Restore backup file (modpack.xml)");
-			System.out.println("8. Remove backup file (modpack.xml)");
-			System.out.println("9. Quit");
+			System.out.println("7. Manage backups (Modpacks)");
 		}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
-			System.out.println("7. Restore backup file (thirdparty.xml)");
-			System.out.println("8. Remove backup file (thirdparty.xml)");
-			System.out.println("9. Quit");
+			System.out.println("7. Manage backups (Thirdparty)");
 		}else{
-			System.out.println("7. Quit");
+			System.out.println("7. Manage backups (No backup file)");
 		}
+		System.out.println("8. Quit");
 		
 		
-		String choixMenu = scanner.nextLine();
 		
-		switch(choixMenu){
+		String choice = scanner.nextLine();
+		
+		switch(choice){
 		
 		case "1":
 			Modpack.list("display");
@@ -69,46 +63,11 @@ public class Menu {
 			break;
 			
 		case "7":
-			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
-				Backup.restore(Constants.modpackBackupFile, Constants.modpackFile);
-			}else if (Backup.isPresent(Constants.modpackBackupFile)){
-				Backup.restore(Constants.modpackBackupFile, Constants.modpackFile);
-			}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
-				Backup.restore(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
-			}else{
-				return;
-			}break;
+			Backup.manage();
+			break;
 			
 		case "8":
-			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
-				Backup.restore(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
-			}else if (Backup.isPresent(Constants.modpackBackupFile)){
-				Backup.remove(Constants.modpackBackupFile);
-			}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
-				Backup.remove(Constants.thirdpartyBackupFile);
-			}
-			break;
-			
-		case "9":
-			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
-				Backup.remove(Constants.modpackBackupFile);
-			}else if (Backup.isPresent(Constants.modpackBackupFile)){
-				return;
-			}else if (Backup.isPresent(Constants.thirdpartyBackupFile)){
-				return;
-			}
-			break;
-			
-		case "10":
-			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
-				Backup.remove(Constants.thirdpartyBackupFile);
-			}
-			break;
-			
-		case "11":
-			if (Backup.isPresent(Constants.thirdpartyBackupFile) && Backup.isPresent(Constants.modpackBackupFile)){
-				return;
-			}
+			return;
 		}
 		Menu.main(args);
 	}

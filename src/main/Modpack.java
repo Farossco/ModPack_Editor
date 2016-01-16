@@ -27,8 +27,8 @@ public class Modpack {
 	
 	public static void list(String choice) {
 
-		String choixModpack = "";
-		int choixModpackInt, i, j;
+		String modpackChoice = "";
+		int modpackChoiceInt, i, j;
 		int back;
 		int modpackRecurrence = 0;
 		int thirdpartyRecurrence = 0;
@@ -81,59 +81,59 @@ public class Modpack {
 				
 				System.out.println("\n" + back + ". Back");
 				
-				choixModpack = Menu.scanner.nextLine();
-				if (choixModpack.isEmpty()) choixModpack = "0";
-				choixModpackInt = Integer.parseInt(choixModpack);
-			}while(choixModpackInt > back || choixModpackInt < 1);
+				modpackChoice = Menu.scanner.nextLine();
+				if (modpackChoice.isEmpty()) modpackChoice = "0";
+				modpackChoiceInt = Integer.parseInt(modpackChoice);
+			}while(modpackChoiceInt > back || modpackChoiceInt < 1);
 			
-			if (choixModpackInt == back){
+			if (modpackChoiceInt == back){
 				return;
 				
-			}else if (choixModpackInt < (i+1)/2 && choixModpackInt >= 0){
+			}else if (modpackChoiceInt < (i+1)/2 && modpackChoiceInt >= 0){
 				
 				switch(choice){
 				case "display":
-					Modpack.display(choixModpackInt*2-1,  Constants.modpackFile);
+					Modpack.display(modpackChoiceInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "edit":
-					Modpack.edit(choixModpackInt*2-1,  Constants.modpackFile);
+					Modpack.edit(modpackChoiceInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "update":
-					Modpack.update(choixModpackInt*2-1,  Constants.modpackFile);
+					Modpack.update(modpackChoiceInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "remove":
-					Modpack.remove(choixModpackInt*2-1,  Constants.modpackFile);
+					Modpack.remove(modpackChoiceInt*2-1,  Constants.modpackFile);
 					break;
 
 				case "manage":
-					Mods.manage(choixModpackInt*2-1,  Constants.modpackFile);
+					Mods.manage(modpackChoiceInt*2-1,  Constants.modpackFile);
 					break;
 				}
 				
-			}else if(choixModpackInt >= (i+1)/2 && choixModpackInt < back){
+			}else if(modpackChoiceInt >= (i+1)/2 && modpackChoiceInt < back){
 				
 				switch(choice){
 				case "display":
-					Modpack.display( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
+					Modpack.display( (modpackChoiceInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "edit":
-					Modpack.edit( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
+					Modpack.edit( (modpackChoiceInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "update":
-					Modpack.update( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
+					Modpack.update( (modpackChoiceInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "remove":
-					Modpack.remove( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
+					Modpack.remove( (modpackChoiceInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 
 				case "manage":
-					Mods.manage( (choixModpackInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
+					Mods.manage( (modpackChoiceInt - (i-1)/2) * 2 - 1, Constants.thirdpartyFile);
 					break;
 				}
 			}
@@ -145,7 +145,7 @@ public class Modpack {
 		}return;
 	}
 	
-	public static void display(int choixmodpack, String file) {
+	public static void display(int modpackChoice, String file) {
 
 		String name = "";
 		String author = "";
@@ -164,7 +164,7 @@ public class Modpack {
 		
 
 		try {
-			System.out.println(choixmodpack);
+			System.out.println(modpackChoice);
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			
 			
@@ -172,7 +172,7 @@ public class Modpack {
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
 			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
-			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
+			final Element modpack = (Element) modpacksRacineNoeuds.item(modpackChoice);
 
 			name = modpack.getAttribute("name");
 			author = modpack.getAttribute("author");
@@ -217,7 +217,7 @@ public class Modpack {
 		}
 	}
 	
-	public static void edit(int choixmodpack, String file) {
+	public static void edit(int modpackChoice, String file) {
 
 		String XMLVersion = "";
 		String XMLEncoding = "";
@@ -246,7 +246,7 @@ public class Modpack {
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
 			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
-			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
+			final Element modpack = (Element) modpacksRacineNoeuds.item(modpackChoice);
 
 			name = modpack.getAttribute("name");
 			author = modpack.getAttribute("author");
@@ -264,7 +264,7 @@ public class Modpack {
 			
 			//Modpack modifications
 			
-			String choixEdition = "";
+			String choice = "";
 			do{	
 			
 				Resources.clear();
@@ -286,12 +286,12 @@ public class Modpack {
 				System.out.println("\nWhat value do you want to edit ? (Press \"Enter\" when you finish)");
 				System.out.println("Leave blank to keep initials values\n");
 				do{
-					choixEdition = Menu.scanner.nextLine();
-				}while ( !choixEdition.equals("1") && !choixEdition.equals("2") && !choixEdition.equals("3") && !choixEdition.equals("4") && !choixEdition.equals("5") && !choixEdition.equals("6") && !choixEdition.equals("7") && !choixEdition.equals("8") && !choixEdition.equals("9") && !choixEdition.equals("10") && !choixEdition.equals("11") && !choixEdition.equals("12") && !choixEdition.equals("13") && !choixEdition.isEmpty() );
+					choice = Menu.scanner.nextLine();
+				}while ( !choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5") && !choice.equals("6") && !choice.equals("7") && !choice.equals("8") && !choice.equals("9") && !choice.equals("10") && !choice.equals("11") && !choice.equals("12") && !choice.equals("13") && !choice.isEmpty() );
 				
-				if (!choixEdition.isEmpty()){
+				if (!choice.isEmpty()){
 					
-					switch(choixEdition){
+					switch(choice){
 					case "1":
 						System.out.println("Old value: " + name + "\n");
 						do{
@@ -426,7 +426,7 @@ public class Modpack {
 						break;
 					}
 				}
-			}while( !choixEdition.isEmpty() );
+			}while( !choice.isEmpty() );
 		
 			//Writing modpacks.xml
 		
@@ -459,7 +459,7 @@ public class Modpack {
 		}
 	}
 	
-	public static void update(int choixmodpack, String file) {
+	public static void update(int modpackChoice, String file) {
 
 		String XMLVersion = "";
 		String XMLEncoding = "";
@@ -477,7 +477,7 @@ public class Modpack {
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
 			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
-			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
+			final Element modpack = (Element) modpacksRacineNoeuds.item(modpackChoice);
 
 			version = modpack.getAttribute("version");
 			repoVersion = version.replace(".", "_");
@@ -783,7 +783,7 @@ public class Modpack {
 		}
 	}
 
-	public static void remove(int choixmodpack, String file) {
+	public static void remove(int modpackChoice, String file) {
 	
 		String XMLVersion = "";
 		String XMLEncoding = "";
@@ -801,7 +801,7 @@ public class Modpack {
 			final Element modpacksRacine = modpacksDocument.getDocumentElement();
 			final NodeList modpacksRacineNoeuds = modpacksRacine.getChildNodes();
 			
-			final Element modpack = (Element) modpacksRacineNoeuds.item(choixmodpack);
+			final Element modpack = (Element) modpacksRacineNoeuds.item(modpackChoice);
 			
 			name = modpack.getAttribute("name");
 			

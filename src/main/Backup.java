@@ -17,7 +17,140 @@ public class Backup {
 			return false;
 		}
 	}
+	
+	public static void manage() {
 		
+		boolean modpackIsPresent = false;
+		boolean thirdpartyIsPresent = false;
+		
+		Resources.clear();
+		if (isPresent(Constants.modpackBackupFile)){
+			System.out.println("-- Modpack.xml backup detected --");
+			modpackIsPresent = true;
+		}
+		
+		if (isPresent(Constants.thirdpartyBackupFile)){
+			System.out.println("-- Thirdparty.xml backup detected --");
+			thirdpartyIsPresent = true;
+		}
+		
+		if (!modpackIsPresent && !thirdpartyIsPresent){
+			System.out.println("-- No backup file detected --");
+		}
+			
+		System.out.println("\nWhat do you want to do ?");
+		
+		System.out.println("\n-- modpacks.xml --");
+		if (modpackIsPresent){
+			System.out.println("1. Restore backup file");
+			System.out.println("2. Remove backup file");
+			System.out.println("3. Create backup file");
+		}else{
+			System.out.println("1. Create backup file");
+		}
+		
+		System.out.println("\n-- thirdparty.xml --");
+		if (modpackIsPresent){
+			if (thirdpartyIsPresent){
+				System.out.println("4. Restore backup file");
+				System.out.println("5. Remove backup file");
+				System.out.println("6. Create backup file");
+				System.out.println("\n7. Back");
+			}else{
+				System.out.println("4. Create backup file");
+				System.out.println("\n5. Back");
+			}
+		}else{
+			if (thirdpartyIsPresent){
+				System.out.println("2. Restore backup file");
+				System.out.println("3. Remove backup file");
+				System.out.println("4. Create backup file");
+				System.out.println("\n5. Back");
+			}else{
+				System.out.println("2. Create backup file");
+				System.out.println("\n3. Back");
+			}
+		}
+		
+		String choice = Menu.scanner.nextLine();
+		
+		switch(choice){
+		
+		case "1":
+			
+			if (modpackIsPresent){
+				restore(Constants.modpackBackupFile, Constants.modpackFile);
+			}else{
+				create(Constants.modpackFile);
+			}
+			break;
+			
+		case "2":
+			if (modpackIsPresent){
+				remove(Constants.modpackBackupFile, Constants.modpackFile);
+			}else{
+				if (thirdpartyIsPresent){
+					restore(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
+				}else{
+					create(Constants.thirdpartyFile);
+				}
+			}
+			break;
+		
+		case "3":
+			if (modpackIsPresent){
+				create(Constants.modpackFile);
+			}else{
+				if (thirdpartyIsPresent){
+					remove(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
+				}else{
+					return;
+				}
+			}
+			break;
+			
+		case "4":
+			if (modpackIsPresent){
+				if (thirdpartyIsPresent){
+					restore(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
+				}else{
+					create(Constants.thirdpartyFile);
+				}
+			}else{
+				if (thirdpartyIsPresent){
+					create(Constants.thirdpartyFile);
+				}
+			}
+			break;
+		
+		case "5":
+			if (modpackIsPresent){
+				if (thirdpartyIsPresent){
+					remove(Constants.thirdpartyBackupFile, Constants.thirdpartyFile);
+				}else{
+					return;
+				}
+			}else{
+				if (thirdpartyIsPresent)
+					return;
+				
+			}
+			break;
+			
+		case "6":
+			if (modpackIsPresent)
+				if (thirdpartyIsPresent)
+					create(Constants.thirdpartyFile);
+			break;
+				
+		case "7":
+			if (modpackIsPresent)
+				if (thirdpartyIsPresent)
+					return;
+		}
+		manage();
+	}
+	
 	public static void create(String file) {
 		
 		String backupFile = "";
@@ -54,9 +187,9 @@ public class Backup {
 		}
 	}
 	
-	public static void remove(String backupFile) {
+	public static void remove(String backupFile, String file) {
 		try {
-			System.out.println("Remove Backup ? (Y/N)");
+			System.out.println("Remove Backup (" + file + ") ? (Y/N)");
 			boolean stay = true;
 			String entry = "";
 			while(stay){

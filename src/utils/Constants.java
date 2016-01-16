@@ -11,4 +11,7 @@ public class Constants {
 	public static final String backupPath = "static/";
 	public static final String path = "static/";
 	
+	public static final String version = "1.0.0";
+	public static final int build = 1;
+	
 }

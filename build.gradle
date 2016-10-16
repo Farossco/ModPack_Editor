@@ -1,0 +1,51 @@
+// This sets us up for building a forge project - you need all of these
+buildscript {
+    repositories {
+		maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+String maj = new File('src/main/resources/version/maj').getText('UTF-8')
+String min = new File('src/main/resources/version/min').getText('UTF-8')
+String rev = new File('src/main/resources/version/rev').getText('UTF-8')
+
+String bn  = (project.hasProperty('buildNumber') ? project.buildNumber : (System.getenv().BUILD_NUMBER != null) ? System.getenv().BUILD_NUMBER : "NOBUILD")
+
+def build = new File('src/main/resources/version/build')
+build.write bn
+
+def versionnobuild = maj + '.' + min + '.' + rev
+version = versionnobuild + '.' + bn
+
+group= "fr.iclario.RPGTropOriginal" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+
+dependencies
+{}
+
+// this sets our output jar to have a 'tag' of 'universal' on it
+// It also adds the minecraft version in a custom version name
+// The result is files named <projectname>-<mcversion>-<version>-universal.jar
+jar {
+    classifier = 'universal'
+	manifest
+	{
+        attributes 'Main-Class': 'fr.iclario.main.Menu'
+    }
+}
+
+// Add in a source jar for people, should they desire to download such a thing
+task sourceJar(type: Jar) {
+	from sourceSets.main.allSource
+	classifier = 'src'
+}
+
+// Tell the artifact system about our extra jars
+artifacts {
+	archives sourceJar
+}

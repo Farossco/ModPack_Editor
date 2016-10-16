@@ -15,7 +15,8 @@ public class Menu
 
 		scanner = new Scanner(System.in);
 
-		Resources.newFile();
+		Resources.generateXML(false);
+		Resources.generateXML(true);
 		Resources.clear();
 		System.out.println("-- Modpack edition program v" + Constants.version + " - build " + Constants.build + " --\n\nWhat do you want to do ?");
 		System.out.println("1. Display a modpack");

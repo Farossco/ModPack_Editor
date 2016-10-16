@@ -41,19 +41,19 @@ public class Resources
 	}
 
 	// Detect if modpacks.xml is present and create it if not
-	public static void newFile ()
+	public static void generateXML (boolean thirdparty)
 	{
 
 		new File(Constants.path).mkdir();
-		java.io.File monFichier = new java.io.File(Constants.path + Constants.modpackFile);
+		java.io.File file = new java.io.File(Constants.path + (thirdparty ? Constants.modpackFile : Constants.thirdpartyFile));
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-		if (!monFichier.exists())
+		if (!file.exists())
 		{
 			System.out.print("==Modpacks.xml file was missing ");
 			try
 			{
-				monFichier.createNewFile();
+				file.createNewFile();
 				System.out.println("and has been created==\n");
 				final DocumentBuilder builder = factory.newDocumentBuilder();
 				final Document document = builder.newDocument();
@@ -63,7 +63,7 @@ public class Resources
 				final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				final Transformer transformer = transformerFactory.newTransformer();
 				final DOMSource source = new DOMSource(document);
-				final StreamResult sortie = new StreamResult(new File(Constants.path + Constants.modpackFile));
+				final StreamResult sortie = new StreamResult(file);
 
 				transformer.setOutputProperty(OutputKeys.VERSION, "1.0");
 				transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");

@@ -22,6 +22,10 @@ public class Resources
 	// Clear the screen (have to be modified)
 	public final static void clear ()
 	{
+		// Printing some new lines if the clear doesn't work
+		for (int i=0; i<50; i++)
+			System.out.println();
+		
 		try
 		{
 			final String os = System.getProperty("os.name");
